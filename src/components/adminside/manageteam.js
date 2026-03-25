@@ -154,7 +154,7 @@ export default function ManageTeam() {
       <style>{globalCSS}</style>
       <div className="mb-6">
         <button
-          onClick={() => router.push("/adminsidepages/dashboard")}
+          onClick={() => router.push("/adminsidepages/dashboardadmin")}
           className="flex items-center gap-2 text-orange-500 hover:text-orange-400 text-sm font-medium transition"
         >
           <FaArrowLeft className="text-xs" />
