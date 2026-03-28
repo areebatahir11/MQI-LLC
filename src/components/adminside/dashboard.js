@@ -91,11 +91,11 @@ export default function Dashboard() {
             desc: "Control all demolition & excavation project showcases.",
             route: "/adminsidepages/adminprojects",
           },
-          {
-            title: "Services Management",
-            desc: "Update and maintain the list of services offered by MQI.",
-            route: "/adminsidepages/adminservice",
-          },
+          // {
+          //   title: "Services Management",
+          //   desc: "Update and maintain the list of services offered by MQI.",
+          //   route: "/adminsidepages/adminservice",
+          // },
           {
             title: "Contact Messages",
             desc: "View messages submitted from contact form.",
