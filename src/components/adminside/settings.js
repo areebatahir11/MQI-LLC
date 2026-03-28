@@ -1,14 +1,17 @@
+//adminside/settings.js
 "use client";
 
-import Navbar from "@/components/Layout/navbar";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 
 export default function Settings() {
-  const router = useRouter();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -19,21 +22,38 @@ export default function Settings() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
-    setSuccess("");
     setError("");
+    setSuccess("");
+
+    if (!form.email || !form.password || !form.confirmPassword) {
+      return setError("All fields are required");
+    }
+
+    if (form.password.length < 6) {
+      return setError("Password must be at least 6 characters");
+    }
+
+    if (form.password !== form.confirmPassword) {
+      return setError("Passwords do not match");
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch("/api/auth/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
       });
+
       const data = await res.json();
 
       if (data.success) {
-        setSuccess("Credentials updated successfully!");
-        setForm({ email: "", password: "" });
+        setSuccess(data.message || "Updated successfully!");
+        setForm({ email: "", password: "", confirmPassword: "" });
       } else {
         setError(data.message || "Something went wrong");
       }
@@ -46,59 +66,59 @@ export default function Settings() {
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
-      {/* Back to Dashboard */}
-      <div className="mb-6">
-        <Link
-          href="/adminside/dashboard"
-          className="inline-flex items-center text-orange-500 hover:text-orange-400 font-semibold"
-        >
-          <FaArrowLeft className="mr-2" /> Back to Dashboard
-        </Link>
-      </div>
+      <Link
+        href="/adminsidepages/dashboardadmin"
+        className="inline-flex items-center text-orange-500 mb-6"
+      >
+        <FaArrowLeft className="mr-2" /> Back
+      </Link>
 
-      <h1 className="text-4xl font-bold text-orange-500 mb-4">Settings</h1>
-      <p className="text-gray-300 mb-8">
-        Update your admin email and password. After saving, you will need to login again.
-      </p>
+      <h1 className="text-4xl font-bold text-orange-500 mb-6">
+        Admin Settings
+      </h1>
 
-      <div className="max-w-md mx-auto bg-zinc-950 border border-zinc-800 rounded-xl p-8 shadow-lg">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block mb-2 font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="admin@mqi.com"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-4 outline-none focus:border-orange-500"
-              required
-            />
-          </div>
+      <div className="max-w-md mx-auto bg-zinc-950 p-8 rounded-xl border border-zinc-800">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter new email"
+            value={form.email}
+            onChange={handleChange}
+            className="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-lg"
+          />
 
-          <div>
-            <label className="block mb-2 font-semibold">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="New Password"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-4 outline-none focus:border-orange-500"
-              required
-            />
-          </div>
+          {/* Password */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter new password"
+            value={form.password}
+            onChange={handleChange}
+            className="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-lg"
+          />
+
+          {/* Confirm Password */}
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            className="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-lg"
+          />
 
           <button
-            type="submit"
             disabled={loading}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-black font-semibold py-3 rounded-lg transition"
+            className="w-full bg-orange-500 py-3 rounded-lg text-black font-semibold"
           >
             {loading ? "Saving..." : "Save Changes"}
           </button>
 
-          {success && <p className="text-green-400 mt-2">{success}</p>}
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {success && <p className="text-green-400">{success}</p>}
+          {error && <p className="text-red-500">{error}</p>}
         </form>
       </div>
     </div>

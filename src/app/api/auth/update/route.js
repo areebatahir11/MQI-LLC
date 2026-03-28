@@ -1,24 +1,43 @@
+// api/auth/update/route.js
 import dbConnect from "@/lib/db";
 import Admin from "@/models/admin";
-import { NextResponse } from "next/server";
 
 export async function POST(req) {
   await dbConnect();
+
   const { email, password } = await req.json();
 
-  if (!email || !password)
-    return NextResponse.json({ success: false, message: "All fields required" }, { status: 400 });
+  if (!email || !password) {
+    return Response.json({
+      success: false,
+      message: "All fields required",
+    });
+  }
 
   try {
-    const admin = await Admin.findOne();
-    if (!admin) return NextResponse.json({ success: false, message: "Admin not found" }, { status: 404 });
+    let admin = await Admin.findOne();
+
+    if (!admin) {
+      await Admin.create({ email, password });
+      return Response.json({
+        success: true,
+        message: "Admin created (first time)",
+      });
+    }
 
     admin.email = email;
-    admin.password = password;
+    admin.password = password; // auto hashed by schema
+
     await admin.save();
 
-    return NextResponse.json({ success: true });
+    return Response.json({
+      success: true,
+      message: "Updated successfully",
+    });
   } catch (err) {
-    return NextResponse.json({ success: false, message: err.message }, { status: 500 });
+    return Response.json({
+      success: false,
+      message: err.message,
+    });
   }
 }

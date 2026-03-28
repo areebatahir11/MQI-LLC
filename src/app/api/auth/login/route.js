@@ -1,54 +1,70 @@
-//auth/login/route.js
+//api/auth/login/route.js
 import { NextResponse } from "next/server";
-import { login } from "@/lib/auth";
+import dbConnect from "@/lib/db";
+import Admin from "@/models/admin";
+import Session from "@/models/session";
+import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
+import crypto from "crypto";
 
 export async function POST(req) {
   try {
+    await dbConnect();
+
     const { email, password } = await req.json();
 
-    const result = await login(email, password);
-
-    if (!result.success) {
+    if (!email || !password) {
       return NextResponse.json(
-        { success: false, message: result.message },
-        { status: 401 }
+        { success: false, message: "Email and password required" },
+        { status: 400 },
       );
     }
 
-    return NextResponse.json({ success: true });
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return NextResponse.json(
+        { success: false, message: "Invalid email" },
+        { status: 401 },
+      );
+    }
 
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return NextResponse.json(
+        { success: false, message: "Invalid password" },
+        { status: 401 },
+      );
+    }
+
+    // create session token
+    const token = crypto.randomUUID();
+
+    await Session.create({
+      token,
+      adminId: admin._id,
+    });
+
+    // ✅ FIX: await cookies()
+    const cookieStore = await cookies();
+
+    cookieStore.set("session", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Login successful",
+    });
   } catch (error) {
-    console.error("LOGIN ERROR:", error);
+    console.log("LOGIN ERROR:", error);
+
     return NextResponse.json(
       { success: false, message: "Server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-
-// import dbConnect from "@/lib/db";
-// import Admin from "@/models/admin";
-// import { NextResponse } from "next/server";
-// import { randomUUID } from "crypto";
-// import { cookies } from "next/headers";
-
-// let activeSessions = {}; 
-
-// export async function POST(req) {
-//   await dbConnect();
-//   const { email, password } = await req.json();
-
-//   const admin = await Admin.findOne({ email });
-//   if (!admin) return NextResponse.json({ success: false, message: "Invalid credentials" }, { status: 401 });
-
-//   const isMatch = await admin.matchPassword(password);
-//   if (!isMatch) return NextResponse.json({ success: false, message: "Invalid credentials" }, { status: 401 });
-
-//   const token = randomUUID();
-//   activeSessions[token] = { email, createdAt: Date.now() };
-
-//   const cookieStore = await cookies();
-//   cookieStore.set("session", token, { httpOnly: true, path: "/" });
-
-//   return NextResponse.json({ success: true });
-// }
