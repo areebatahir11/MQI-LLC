@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
-  reactStrictMode: true,
-   images: {
-    unoptimized: true, // base64 images ke liye
+  serverExternalPackages: ["cloudinary"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

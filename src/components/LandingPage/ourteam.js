@@ -1,3 +1,4 @@
+//landingpage/OurTeam.js
 "use client";
 
 import Image from "next/image";

@@ -44,7 +44,6 @@ export async function POST(req) {
       adminId: admin._id,
     });
 
-    // ✅ FIX: await cookies()
     const cookieStore = await cookies();
 
     cookieStore.set("session", token, {

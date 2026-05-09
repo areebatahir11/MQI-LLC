@@ -1,3 +1,4 @@
+//ccomponents/adminside/manageteam.js
 "use client";
 
 import { useEffect, useState } from "react";
