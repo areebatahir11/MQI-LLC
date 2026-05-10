@@ -1,4 +1,5 @@
 "use client";
+
 import Navbar from "../components/Layout/navbar";
 import { FaHardHat, FaBuilding, FaTruck, FaTools } from "react-icons/fa";
 
@@ -11,28 +12,67 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="bg-black min-h-screen text-white">
+    <div className="bg-zinc-950 text-white min-h-screen">
       <Navbar />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-bold mb-12">
-            Our <span className="text-orange-500">Services</span>
-          </h1>
+      {/* ================= HERO ================= */}
+      <section className="relative min-h-screen overflow-hidden py-24">
 
+        {/* 🔥 Bottom corner orange 800 glow (same as About) */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_0%_100%,rgba(192,72,26,0.45),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_100%_100%,rgba(192,72,26,0.45),transparent_60%)]" />
+
+        {/* Grid */}
+        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:80px_80px]" />
+
+        {/* Blobs */}
+        <div className="absolute top-[-120px] right-[-100px] w-[380px] h-[380px] rounded-full bg-orange-900/20 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-[-140px] left-[-120px] w-[420px] h-[420px] rounded-full bg-orange-800/20 blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-6">
+
+          {/* Header */}
+          <div className="mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-orange-800/40 px-5 py-2 text-sm text-orange-400 font-semibold mb-6">
+              <div className="w-2 h-2 rounded-full bg-orange-600" />
+              What We Do
+            </div>
+
+            <h1 className="text-4xl md:text-5xl font-black">
+              Our{" "}
+              <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">
+                Services
+              </span>
+            </h1>
+          </div>
+
+          {/* ================= GRID ================= */}
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+
             {services.map((service) => (
               <div
                 key={service.title}
-                className="bg-black border border-zinc-800 rounded-xl p-6 hover:border-orange-500 transition"
+                className="group relative bg-zinc-900/60 backdrop-blur-xl border-2 border-zinc-800 hover:border-orange-700/60 rounded-3xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_60px_rgba(192,72,26,0.25)] hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="text-orange-500 text-3xl mb-4">
-                  {service.icon}
+                {/* glow on hover */}
+                <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-orange-800/10 via-transparent to-orange-800/10" />
+
+                <div className="relative">
+
+                  <div className="text-orange-500 text-3xl mb-4">
+                    {service.icon}
+                  </div>
+
+                  <h3 className="font-semibold text-lg group-hover:text-orange-400 transition">
+                    {service.title}
+                  </h3>
+
                 </div>
-                <h3 className="font-semibold">{service.title}</h3>
               </div>
             ))}
+
           </div>
+
         </div>
       </section>
     </div>

@@ -1,22 +1,39 @@
 export default function Stats() {
   return (
-    <section className="bg-neutral-950 py-20 text-white">
-      <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-8 px-6 text-center">
-        <div>
-          <p className="text-4xl font-extrabold text-orange-500">15+</p>
-          <p className="text-white/70">Years in Business</p>
-        </div>
-        <div>
-          <p className="text-4xl font-extrabold text-orange-500">5.0★</p>
-          <p className="text-white/70">Customer Rating</p>
-        </div>
-        <div>
-          <p className="text-4xl font-extrabold text-orange-500">100+</p>
-          <p className="text-white/70">Completed Projects</p>
-        </div>
-        <div>
-          <p className="text-4xl font-extrabold text-orange-500">24/7</p>
-          <p className="text-white/70">Support</p>
+    <section className="relative overflow-hidden bg-white py-24">
+
+      {/* Bottom corners burnt orange — same as FeaturedProjects */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_0%_100%,rgba(192,72,26,0.90),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_100%_100%,rgba(192,72,26,0.90),transparent_60%)]" />
+
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:80px_80px]" />
+
+      {/* Center blob */}
+      <div className="absolute top-1/2 left-1/2 w-[500px] h-32 -translate-x-1/2 -translate-y-1/2 bg-orange-100/40 blur-3xl rounded-full pointer-events-none" />
+
+      <div className="relative mx-auto max-w-5xl px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+          {[
+            { val: "15+", label: "Years in Business", icon: "🏗" },
+            { val: "5.0★", label: "Customer Rating", icon: "⭐" },
+            { val: "100+", label: "Completed Projects", icon: "🎯" },
+            { val: "24/7", label: "Support", icon: "📞" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="group relative bg-white/90 backdrop-blur-xl border-[3px] border-zinc-900 rounded-3xl p-6 text-center shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_8px_30px_rgb(0,0,0,0.18)] hover:shadow-[0_0_0_1px_rgba(0,0,0,0.12),0_20px_50px_rgba(0,0,0,0.30)] hover:-translate-y-2 transition-all duration-300"
+            >
+              {/* Hover diagonal glow */}
+              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[linear-gradient(135deg,rgba(154,52,18,0.06),transparent_60%)]" />
+
+              <div className="relative text-2xl mb-2">{stat.icon}</div>
+              <p className="relative text-3xl md:text-4xl font-black bg-gradient-to-r from-orange-950 via-orange-800 to-orange-600 bg-clip-text text-transparent">
+                {stat.val}
+              </p>
+              <p className="relative text-zinc-500 text-sm mt-1 font-medium">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
