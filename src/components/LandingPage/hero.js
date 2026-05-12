@@ -77,7 +77,7 @@ export default function Hero() {
         {/* Badge */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 text-sm text-orange-300 font-medium">
           <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse inline-block" />
-          Professional Demolition & Excavation
+          Professional Hill Cutting, Demolition & Excavation
         </div>
 
         <h1 className="mb-5 text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
