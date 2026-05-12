@@ -16,7 +16,7 @@ export default function OurGoals() {
       <div className="absolute top-1/2 left-1/2 w-75 h-75 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl" />
 
       {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-size-" />
+      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:80px_80px]" />
 
       <div className="relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
         {/* Left Image */}

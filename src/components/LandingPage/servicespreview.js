@@ -28,7 +28,7 @@ export default function Services() {
     <section className="relative overflow-hidden bg-white py-28">
       {/* Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(234,88,12,0.55),transparent_60%),radial-gradient(circle_at_bottom_right,rgba(154,52,18,0.45),transparent_55%)]" />
-      <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(to_right,rgba(0,0,0,0.25)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.25)_1px,transparent_1px)] bg-size-" />
+      <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(to_right,rgba(0,0,0,0.25)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.25)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
       <div className="absolute -bottom-45 -right-30 w-125 h-125 rounded-full bg-orange-400/25 blur-3xl" />
       <div className="absolute -bottom-50 -left-35 w-130 h-130 rounded-full bg-orange-300/20 blur-3xl" />
