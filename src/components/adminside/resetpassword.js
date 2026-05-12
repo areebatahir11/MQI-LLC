@@ -126,7 +126,7 @@ export default function ResetPassword() {
               </label>
               <div style={{ position: "relative" }}>
                 <FaKey style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "rgba(192,72,26,0.5)", fontSize: "13px" }} />
-                <input className="rp-input" type="text" name="token" placeholder="Email se mila 6-digit token"
+                <input className="rp-input" type="text" name="token" placeholder="6 digits token you received via email"
                   value={form.token} onChange={handleChange} style={{ ...inputStyle, letterSpacing: "3px", fontSize: "18px", fontWeight: "700" }} maxLength={6} />
               </div>
               <p style={{ fontSize: "11px", color: "rgba(245,230,216,0.25)", margin: "2px 0 0" }}>Token will expire after 15 minutes</p>
