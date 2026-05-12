@@ -5,17 +5,15 @@ export default function Navbar() {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl">
       <div className="flex items-center justify-between px-6 py-2 rounded-full bg-white/70 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgb(0,0,0,0.08)]">
-
         {/* Logo + Brand */}
         <div className="flex items-center gap-1">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden bg-transparent mix-blend-multiply">
+          <div className="relative w-10 h-10 bg-transparent">
             <Image
               src="/images/mamooFinal_logo_transparent.png"
-              alt="MQI SPC Logo"
-              width={40}
-              height={40}
-              className="object-contain mix-blend-multiply"
-              style={{ background: "transparent" }}
+              alt="MQI SPC Logo (Transparent)"
+              fill
+              sizes="40px"
+              className="object-contain mix-blend-multiply bg-transparent"
             />
           </div>
           <h1 className="text-2xl font-black tracking-wide text-orange-500 drop-shadow-sm -ml-1 mt-px uppercase">
