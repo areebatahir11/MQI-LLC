@@ -147,7 +147,7 @@ export default function ResetPassword() {
             {/* Confirm Password */}
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <label style={{ fontSize: "11px", color: "rgba(245,230,216,0.40)", fontWeight: "700", letterSpacing: "1px", textTransform: "uppercase" }}>
-                Password Confirm Karo <span style={{ color: "#c0481a" }}>*</span>
+                Confirm your password <span style={{ color: "#c0481a" }}>*</span>
               </label>
               <div style={{ position: "relative" }}>
                 <FaLock style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "rgba(192,72,26,0.5)", fontSize: "13px" }} />
@@ -169,7 +169,7 @@ export default function ResetPassword() {
 
             <button type="submit" disabled={loading} className="rp-btn"
               style={{ marginTop: "4px", width: "100%", background: "#c0481a", border: "none", color: "#fff", padding: "14px", borderRadius: "10px", fontSize: "14px", fontWeight: "700", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, transition: "all 0.2s", boxShadow: "0 4px 15px rgba(192,72,26,0.25)", fontFamily: "inherit" }}>
-              {loading ? "Reset ho raha hai..." : "Password Reset Karo"}
+              {loading ? "Reseting..." : "Reset your password"}
             </button>
           </form>
         </div>
