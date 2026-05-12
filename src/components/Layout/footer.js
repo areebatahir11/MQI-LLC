@@ -65,7 +65,7 @@ export default function Footer() {
               <span className="text-base">📞</span> +968 9741 0272
             </p>
             <p className="text-white/50 text-sm flex items-center gap-2">
-              <span className="text-base">⏰</span> Open · Closes 9 PM
+              <span className="text-base">⏰</span> Open · Closes 5 PM
             </p>
           </div>
         </div>
