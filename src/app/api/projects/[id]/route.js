@@ -7,21 +7,18 @@ import { NextResponse } from "next/server";
 // UPDATE
 export async function PUT(req, { params }) {
   await dbConnect();
+  const { id } = await params;
 
   try {
     const body = await req.json();
 
-    // Agar nai image aayi (base64) toh purani delete karo aur nai upload karo
     if (body.image && !body.image.startsWith("http")) {
-      const existing = await Project.findById(params.id);
+      const existing = await Project.findById(id);
       if (existing?.image) await deleteImage(existing.image);
       body.image = await uploadImage(body.image);
     }
 
-    const project = await Project.findByIdAndUpdate(params.id, body, {
-      new: true,
-    });
-
+    const project = await Project.findByIdAndUpdate(id, body, { new: true });
     return NextResponse.json({ success: true, project });
   } catch (err) {
     return NextResponse.json(
@@ -34,13 +31,13 @@ export async function PUT(req, { params }) {
 // DELETE
 export async function DELETE(req, { params }) {
   await dbConnect();
+  const { id } = await params;
 
   try {
-    const existing = await Project.findById(params.id);
-    // Cloudinary se image bhi hatao
+    const existing = await Project.findById(id);
     if (existing?.image) await deleteImage(existing.image);
 
-    await Project.findByIdAndDelete(params.id);
+    await Project.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json(
