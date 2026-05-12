@@ -350,7 +350,7 @@ export default function Settings() {
             {/* Submit */}
             <button type="submit" disabled={loading} className="s-submit"
               style={{ marginTop: "4px", width: "100%", background: "#c0481a", border: "none", color: "#fff", padding: "14px", borderRadius: "10px", fontSize: "14px", fontWeight: "700", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, transition: "all 0.2s", boxShadow: "0 4px 15px rgba(192,72,26,0.25)", fontFamily: "inherit" }}>
-              {loading ? "Save ho raha hai..." : "Save Changes"}
+              {loading ? "Saving your changes..." : "Save Changes"}
             </button>
           </form>
         </div>
