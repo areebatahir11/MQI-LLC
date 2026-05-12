@@ -119,6 +119,12 @@ export default function Dashboard() {
               route: "/adminsidepages/adminprojects",
               icon: "🏗",
             },
+             {
+              title: "Services Management",
+              desc: "Add, remove all demolition & excavation services",
+              route: "/adminsidepages/adminservice",
+              icon: "🛠️",
+            },
             {
               title: "Contact Messages",
               desc: "View messages submitted from contact form.",
