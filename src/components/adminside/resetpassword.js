@@ -92,7 +92,7 @@ export default function ResetPassword() {
         <div style={{ width: "100%", maxWidth: "440px", marginBottom: "24px" }}>
           <button onClick={() => router.push("/adminsidepages/forgetpassword")} className="rp-back"
             style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "transparent", border: "1px solid rgba(192,72,26,0.25)", color: "rgba(245,230,216,0.45)", fontSize: "13px", cursor: "pointer", padding: "8px 16px", borderRadius: "10px", transition: "all 0.2s", fontFamily: "inherit" }}>
-            <FaArrowLeft style={{ fontSize: "10px" }} /> Token Dobara Bhejo
+            <FaArrowLeft style={{ fontSize: "10px" }} /> Resend Token
           </button>
         </div>
 
