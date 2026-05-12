@@ -154,11 +154,11 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div className="bg-zinc-950 text-white min-h-screen">
+    <div className="text-white min-h-screen">
       <Navbar />
 
       {/* ================= HERO ================= */}
-      <section className="relative min-h-screen overflow-hidden py-24">
+      <section className="relative min-h-screen overflow-hidden py-24 bg-zinc-950">
         
         {/* 🔥 Bottom corner orange 800 glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_0%_100%,rgba(192,72,26,0.45),transparent_60%)]" />
