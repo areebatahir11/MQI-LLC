@@ -1,114 +1,55 @@
-// //adminside/forgetpassword.js
-// "use client";
-
-// import { useState } from "react";
-// import { useRouter } from "next/navigation";
-
-// export default function ForgotPassword() {
-//   const router = useRouter();
-//   const [email, setEmail] = useState("");
-//   const [newPassword, setNewPassword] = useState("");
-//   const [message, setMessage] = useState("");
-
-//   async function handleSubmit(e) {
-//     e.preventDefault();
-
-//     const res = await fetch("/api/auth/forgetpassword", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ email, newPassword }),
-//     });
-
-//     const data = await res.json();
-
-//     if (!data.success) {
-//       setMessage(data.message);
-//       return;
-//     }
-
-//     setMessage("Password updated! Redirecting to login...");
-    
-//     setTimeout(() => {
-//       router.push("/adminsidepages/login");
-//     }, 2000);
-//   }
-
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-black text-white">
-//       <form
-//         onSubmit={handleSubmit}
-//         className="bg-zinc-900 p-8 rounded-lg w-full max-w-md space-y-6"
-//       >
-//         <h2 className="text-2xl font-bold text-orange-500">
-//           Forgot Password
-//         </h2>
-
-//         {message && (
-//           <div className="text-sm text-orange-400">{message}</div>
-//         )}
-
-//         <div>
-//           <label>Email</label>
-//           <input
-//             type="email"
-//             className="w-full bg-transparent border-b border-white py-2"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             required
-//           />
-//         </div>
-
-//         <div>
-//           <label>New Password</label>
-//           <input
-//             type="password"
-//             className="w-full bg-transparent border-b border-white py-2"
-//             value={newPassword}
-//             onChange={(e) => setNewPassword(e.target.value)}
-//             required
-//           />
-//         </div>
-
-//         <button
-//           type="submit"
-//           className="bg-orange-600 text-black py-2 w-full font-bold"
-//         >
-//           Reset Password
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
-// adminsidepages/forgetpassword.js
+// adminsidepages/resetpassword.js
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { FaArrowLeft, FaEnvelope } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FaArrowLeft, FaKey, FaLock } from "react-icons/fa";
 
-export default function ForgotPassword() {
+export default function ResetPassword() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const searchParams = useSearchParams();
+
+  const [form, setForm] = useState({ token: "", newPassword: "", confirmPassword: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  // URL mein token aaya ho toh auto-fill karo
+  useEffect(() => {
+    const urlToken = searchParams.get("token");
+    if (urlToken) setForm(f => ({ ...f, token: urlToken }));
+  }, [searchParams]);
+
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError(""); setSuccess("");
-    if (!email) return setError("Email required hai");
+
+    if (!form.token || !form.newPassword || !form.confirmPassword)
+      return setError("Sab fields required hain");
+    if (form.newPassword.length < 6)
+      return setError("Password kam az kam 6 characters ka hona chahiye");
+    if (form.newPassword !== form.confirmPassword)
+      return setError("Passwords match nahi kar rahe");
 
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          token: form.token,
+          newPassword: form.newPassword,
+          confirmPassword: form.confirmPassword,
+        }),
       });
       const data = await res.json();
       if (data.success) {
-        setSuccess("Token tumhari email par bhej diya gaya hai! Ab reset page par jao.");
-        setEmail("");
+        setSuccess("Password reset ho gaya! Login page par ja rahe hain...");
+        setTimeout(() => router.push("/adminsidepages/login"), 2500);
       } else {
         setError(data.message || "Kuch galat hua");
       }
@@ -131,10 +72,9 @@ export default function ForgotPassword() {
       <style>{`
         * { box-sizing: border-box; }
         ::placeholder { color: rgba(245,230,216,0.25) !important; }
-        .fp-input:focus { border-color: rgba(192,72,26,0.70) !important; box-shadow: 0 0 0 3px rgba(192,72,26,0.12); }
-        .fp-back:hover { border-color: rgba(192,72,26,0.60) !important; color: #e8703a !important; }
-        .fp-btn:hover:not(:disabled) { background: #e8703a !important; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(192,72,26,0.35) !important; }
-        .fp-link:hover { color: #e8703a !important; }
+        .rp-input:focus { border-color: rgba(192,72,26,0.70) !important; box-shadow: 0 0 0 3px rgba(192,72,26,0.12); }
+        .rp-back:hover { border-color: rgba(192,72,26,0.60) !important; color: #e8703a !important; }
+        .rp-btn:hover:not(:disabled) { background: #e8703a !important; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(192,72,26,0.35) !important; }
       `}</style>
 
       {/* Background */}
@@ -150,9 +90,9 @@ export default function ForgotPassword() {
 
         {/* Back button */}
         <div style={{ width: "100%", maxWidth: "440px", marginBottom: "24px" }}>
-          <button onClick={() => router.push("/adminsidepages/login")} className="fp-back"
+          <button onClick={() => router.push("/adminsidepages/forgetpassword")} className="rp-back"
             style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "transparent", border: "1px solid rgba(192,72,26,0.25)", color: "rgba(245,230,216,0.45)", fontSize: "13px", cursor: "pointer", padding: "8px 16px", borderRadius: "10px", transition: "all 0.2s", fontFamily: "inherit" }}>
-            <FaArrowLeft style={{ fontSize: "10px" }} /> Back to Login
+            <FaArrowLeft style={{ fontSize: "10px" }} /> Token Dobara Bhejo
           </button>
         </div>
 
@@ -163,13 +103,13 @@ export default function ForgotPassword() {
             Admin Panel
           </div>
           <h1 style={{ fontSize: "32px", fontWeight: "900", margin: "0 0 6px", letterSpacing: "-0.5px", color: "#fff" }}>
-            Forgot{" "}
+            Reset{" "}
             <span style={{ background: "linear-gradient(to right, #e8703a, #c0481a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Password?
+              Password
             </span>
           </h1>
           <p style={{ fontSize: "14px", color: "rgba(245,230,216,0.40)", margin: 0 }}>
-            Enter email, reset token will be send on your registered email address
+            Enter token you received via email and type new password
           </p>
         </div>
 
@@ -179,14 +119,40 @@ export default function ForgotPassword() {
 
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 
+            {/* Token */}
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <label style={{ fontSize: "11px", color: "rgba(245,230,216,0.40)", fontWeight: "700", letterSpacing: "1px", textTransform: "uppercase" }}>
-                Registered Email <span style={{ color: "#c0481a" }}>*</span>
+                Reset Token <span style={{ color: "#c0481a" }}>*</span>
               </label>
               <div style={{ position: "relative" }}>
-                <FaEnvelope style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "rgba(192,72,26,0.5)", fontSize: "14px" }} />
-                <input className="fp-input" type="email" placeholder="admin@mqicontractors.com"
-                  value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
+                <FaKey style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "rgba(192,72,26,0.5)", fontSize: "13px" }} />
+                <input className="rp-input" type="text" name="token" placeholder="Email se mila 6-digit token"
+                  value={form.token} onChange={handleChange} style={{ ...inputStyle, letterSpacing: "3px", fontSize: "18px", fontWeight: "700" }} maxLength={6} />
+              </div>
+              <p style={{ fontSize: "11px", color: "rgba(245,230,216,0.25)", margin: "2px 0 0" }}>Token will expire after 15 minutes</p>
+            </div>
+
+            {/* New Password */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <label style={{ fontSize: "11px", color: "rgba(245,230,216,0.40)", fontWeight: "700", letterSpacing: "1px", textTransform: "uppercase" }}>
+                Naya Password <span style={{ color: "#c0481a" }}>*</span>
+              </label>
+              <div style={{ position: "relative" }}>
+                <FaLock style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "rgba(192,72,26,0.5)", fontSize: "13px" }} />
+                <input className="rp-input" type="password" name="newPassword" placeholder="Minimum 6 Characters"
+                  value={form.newPassword} onChange={handleChange} style={inputStyle} />
+              </div>
+            </div>
+
+            {/* Confirm Password */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <label style={{ fontSize: "11px", color: "rgba(245,230,216,0.40)", fontWeight: "700", letterSpacing: "1px", textTransform: "uppercase" }}>
+                Password Confirm Karo <span style={{ color: "#c0481a" }}>*</span>
+              </label>
+              <div style={{ position: "relative" }}>
+                <FaLock style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "rgba(192,72,26,0.5)", fontSize: "13px" }} />
+                <input className="rp-input" type="password" name="confirmPassword" placeholder="Retype Password"
+                  value={form.confirmPassword} onChange={handleChange} style={inputStyle} />
               </div>
             </div>
 
@@ -201,18 +167,10 @@ export default function ForgotPassword() {
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="fp-btn"
+            <button type="submit" disabled={loading} className="rp-btn"
               style={{ marginTop: "4px", width: "100%", background: "#c0481a", border: "none", color: "#fff", padding: "14px", borderRadius: "10px", fontSize: "14px", fontWeight: "700", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, transition: "all 0.2s", boxShadow: "0 4px 15px rgba(192,72,26,0.25)", fontFamily: "inherit" }}>
-              {loading ? "Sending..." : "Send Reset Token"}
+              {loading ? "Reset ho raha hai..." : "Password Reset Karo"}
             </button>
-
-            {/* Link to reset page */}
-            {success && (
-              <button type="button" onClick={() => router.push("/adminsidepages/resetpassword")} className="fp-link"
-                style={{ background: "transparent", border: "1px solid rgba(192,72,26,0.35)", color: "rgba(245,230,216,0.6)", padding: "12px", borderRadius: "10px", fontSize: "13px", fontWeight: "600", cursor: "pointer", transition: "all 0.2s", fontFamily: "inherit" }}>
-                Now type Reset Password →
-              </button>
-            )}
           </form>
         </div>
 
