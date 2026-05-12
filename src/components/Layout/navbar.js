@@ -44,7 +44,7 @@ export default function Navbar() {
 
         <Link
           href="/adminpage"
-          className="hidden md:inline-flex items-center rounded-full bg-gradient-to-r from-orange-400 to-orange-500 px-5 py-2 text-sm font-semibold text-white shadow-[0_4px_14px_rgb(249,115,22,0.4)] transition-all duration-300 hover:shadow-[0_6px_20px_rgb(249,115,22,0.5)] hover:scale-105"
+          className="hidden md:inline-flex items-center rounded-full bg-linear-to-r from-orange-400 to-orange-500 px-5 py-2 text-sm font-semibold text-white shadow-[0_4px_14px_rgb(249,115,22,0.4)] transition-all duration-300 hover:shadow-[0_6px_20px_rgb(249,115,22,0.5)] hover:scale-105"
         >
           Admin Only
         </Link>

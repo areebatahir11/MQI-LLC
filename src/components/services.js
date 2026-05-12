@@ -165,7 +165,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_100%_100%,rgba(192,72,26,0.45),transparent_60%)]" />
 
         {/* Grid */}
-        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:80px_80px]" />
+        <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-size-" />
 
         {/* Blobs */}
         <div className="absolute -top-30 -right-25 w-95 h-95 rounded-full bg-orange-900/20 blur-3xl pointer-events-none" />
@@ -182,7 +182,7 @@ export default function ServicesPage() {
 
             <h1 className="text-4xl md:text-5xl font-black">
               Our{" "}
-              <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">
                 Services
               </span>
             </h1>
@@ -202,7 +202,7 @@ export default function ServicesPage() {
                   className="group relative bg-zinc-900/60 backdrop-blur-xl border-2 border-zinc-800 hover:border-orange-700/60 rounded-3xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_60px_rgba(192,72,26,0.25)] hover:-translate-y-1 transition-all duration-300"
                 >
                   {/* glow on hover */}
-                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-orange-800/10 via-transparent to-orange-800/10" />
+                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition bg-linear-to-r from-orange-800/10 via-transparent to-orange-800/10" />
 
                   <div className="relative">
 
