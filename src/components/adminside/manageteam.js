@@ -1,9 +1,23 @@
-//ccomponents/adminside/manageteam.js
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa";
+
+const T = {
+  bg:        "#ffffff",
+  sidebar:   "#fdf8f5",
+  card:      "#ffffff",
+  input:     "#fdf6f2",
+  border:    "#1a1a1a",
+  borderSoft:"rgba(26,26,26,0.15)",
+  orange:    "#9a3412",
+  orangeL:   "#c0481a",
+  orangePill:"rgba(154,52,18,0.10)",
+  text:      "#1a1008",
+  muted:     "#6b4c3b",
+  dim:       "#a07060",
+};
 
 export default function ManageTeam() {
   const router = useRouter();
@@ -14,15 +28,8 @@ export default function ManageTeam() {
   const [activeTab, setActiveTab] = useState("add");
 
   const [form, setForm] = useState({
-    name: "",
-    designation: "",
-    description: "",
-    image: "",
-    email: "",
-    phone: "",
-    experience: "",
-    skills: "",
-    _id: null,
+    name: "", designation: "", description: "", image: "",
+    email: "", phone: "", experience: "", skills: "", _id: null,
   });
 
   const [error, setError] = useState("");
@@ -37,23 +44,16 @@ export default function ManageTeam() {
       const res = await fetch("/api/team");
       const data = await res.json();
       setTeams(data.teams || []);
-    } catch {
-      setError("Failed to load team.");
-    } finally {
-      setLoading(false);
-    }
+    } catch { setError("Failed to load team."); }
+    finally { setLoading(false); }
   }
 
   useEffect(() => {
     async function check() {
       const res = await fetch("/api/auth/session");
       const data = await res.json();
-      if (!data.authenticated) {
-        router.push("/adminsidepages/login");
-      } else {
-        setSession(data.user);
-        fetchTeams();
-      }
+      if (!data.authenticated) router.push("/adminsidepages/login");
+      else { setSession(data.user); fetchTeams(); }
     }
     check();
   }, [router]);
@@ -75,20 +75,8 @@ export default function ManageTeam() {
   }
 
   function resetForm() {
-    setForm({
-      name: "",
-      designation: "",
-      description: "",
-      image: "",
-      email: "",
-      phone: "",
-      experience: "",
-      skills: "",
-      _id: null,
-    });
-    setImagePreview(null);
-    setError("");
-    setSuccess("");
+    setForm({ name: "", designation: "", description: "", image: "", email: "", phone: "", experience: "", skills: "", _id: null });
+    setImagePreview(null); setError(""); setSuccess("");
   }
 
   function handleEdit(member) {
@@ -99,352 +87,212 @@ export default function ManageTeam() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setSubmitting(true);
-    setError("");
-    setSuccess("");
+    e.preventDefault(); setSubmitting(true); setError(""); setSuccess("");
     const method = form._id ? "PUT" : "POST";
     const endpoint = form._id ? `/api/team/${form._id}` : "/api/team";
     try {
       const res = await fetch(endpoint, {
-        method,
-        headers: { "Content-Type": "application/json" },
+        method, headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, skills: form.skills.split(",") }),
       });
       const data = await res.json();
-      if (!data.success) {
-        setError(data.message);
-        return;
-      }
-      setSuccess(
-        form._id
-          ? "Member updated successfully!"
-          : "Member added successfully!",
-      );
-      resetForm();
-      fetchTeams();
-    } catch {
-      setError("Network error. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+      if (!data.success) { setError(data.message); return; }
+      setSuccess(form._id ? "Member updated successfully!" : "Member added successfully!");
+      resetForm(); fetchTeams();
+    } catch { setError("Network error. Please try again."); }
+    finally { setSubmitting(false); }
   }
 
   async function confirmDelete() {
-    if (deleteConfirm !== deletingMember.name) {
-      setError("Name does not match.");
-      return;
-    }
+    if (deleteConfirm !== deletingMember.name) { setError("Name does not match."); return; }
     await fetch(`/api/team/${deletingMember._id}`, { method: "DELETE" });
-    setDeletingMember(null);
-    setDeleteConfirm("");
-    fetchTeams();
+    setDeletingMember(null); setDeleteConfirm(""); fetchTeams();
   }
 
-  if (loading)
-    return (
-      <div style={styles.loadingScreen}>
-        <div style={styles.loadingSpinner}></div>
-        <p style={styles.loadingText}>Loading Team...</p>
-        <style>{spinnerCSS}</style>
-      </div>
-    );
+  const inputStyle = {
+    background: T.input, border: `2px solid ${T.borderSoft}`, borderRadius: "10px",
+    color: T.text, padding: "12px 14px", fontSize: "14px", outline: "none",
+    transition: "border-color 0.2s", width: "100%", boxSizing: "border-box", fontFamily: "inherit",
+  };
+
+  if (loading) return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:"100vh", background: T.bg, gap:"16px" }}>
+      <div style={{ width:"40px", height:"40px", border:`3px solid ${T.borderSoft}`, borderTop:`3px solid ${T.orange}`, borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
+      <p style={{ color: T.muted, fontSize:"14px", letterSpacing:"2px" }}>Loading Team...</p>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
 
   return (
-    <div style={styles.root}>
-      <style>{globalCSS}</style>
-      <div className="mb-6">
-        <button
-          onClick={() => router.push("/adminsidepages/dashboardadmin")}
-          className="flex items-center gap-2 text-orange-500 hover:text-orange-400 text-sm font-medium transition"
-        >
-          <FaArrowLeft className="text-xs" />
-          Back to Dashboard
-        </button>
+    <div style={{ display:"flex", minHeight:"100vh", background: T.bg, fontFamily:"'Segoe UI', system-ui, sans-serif", color: T.text, position:"relative" }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        ::placeholder { color: ${T.dim} !important; }
+        .t-input:focus { border-color: ${T.orange} !important; box-shadow: 0 0 0 3px rgba(154,52,18,0.12); outline: none; }
+        .t-input:hover { border-color: ${T.orangeL} !important; }
+        .t-card:hover { border-color: ${T.orange} !important; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(154,52,18,0.14); }
+        .t-act:hover { background: rgba(154,52,18,0.08) !important; border-color: ${T.orange} !important; color: ${T.orange} !important; }
+        label[for="imageInput"]:hover { border-color: ${T.orange} !important; }
+        .t-nav:hover { background: rgba(154,52,18,0.07) !important; color: ${T.orange} !important; }
+        .t-back:hover { background: ${T.orange} !important; color: #fff !important; border-color: ${T.orange} !important; }
+        .t-submit:hover { background: ${T.orangeL} !important; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(154,52,18,0.30) !important; }
+        .t-cancel:hover { border-color: ${T.orange} !important; color: ${T.orange} !important; }
+      `}</style>
+
+      {/* Cornered orange-800 gradients */}
+      <div style={{ position:"fixed", inset:0, pointerEvents:"none", zIndex:0 }}>
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 55% 50% at 0% 0%, rgba(154,52,18,0.18), transparent 55%)" }} />
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 55% 50% at 100% 0%, rgba(154,52,18,0.18), transparent 55%)" }} />
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 55% 50% at 0% 100%, rgba(154,52,18,0.18), transparent 55%)" }} />
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 55% 50% at 100% 100%, rgba(154,52,18,0.18), transparent 55%)" }} />
+        {/* Grid */}
+        <div style={{ position:"absolute", inset:0, opacity:0.04, backgroundImage:"linear-gradient(to right,#000 1px,transparent 1px),linear-gradient(to bottom,#000 1px,transparent 1px)", backgroundSize:"80px 80px" }} />
       </div>
 
       {/* SIDEBAR */}
-      <aside style={styles.sidebar}>
-        <div style={styles.sidebarLogo}>
-          <span style={styles.logoAccent}>TEAM</span>
-          <span style={styles.logoSub}>MANAGER</span>
+      <aside style={{ width:"240px", minHeight:"100vh", background:"rgba(253,248,245,0.92)", backdropFilter:"blur(12px)", borderRight:`2px solid ${T.border}`, display:"flex", flexDirection:"column", position:"sticky", top:0, height:"100vh", zIndex:10 }}>
+        <div style={{ padding:"28px 24px 20px" }}>
+          <div style={{ fontSize:"20px", fontWeight:"900", color: T.orange, letterSpacing:"4px" }}>TEAM</div>
+          <div style={{ fontSize:"10px", color: T.dim, letterSpacing:"3px", fontWeight:"600", marginTop:"2px" }}>MANAGER</div>
         </div>
+        <div style={{ height:"2px", background:`linear-gradient(to right, ${T.orange}, transparent)`, marginBottom:"16px" }} />
 
-        <div style={styles.sidebarDivider} />
-
-        <nav style={styles.nav}>
-          <button
-            style={{
-              ...styles.navBtn,
-              ...(activeTab === "add" ? styles.navBtnActive : {}),
-            }}
-            onClick={() => {
-              resetForm();
-              setActiveTab("add");
-            }}
-          >
-            <span style={styles.navIcon}>＋</span>
-            <span>{form._id ? "Edit Member" : "Add Member"}</span>
-            {activeTab === "add" && <span style={styles.navIndicator} />}
-          </button>
-
-          <button
-            style={{
-              ...styles.navBtn,
-              ...(activeTab === "manage" ? styles.navBtnActive : {}),
-            }}
-            onClick={() => setActiveTab("manage")}
-          >
-            <span style={styles.navIcon}>◈</span>
-            <span>Manage Team</span>
-            <span style={styles.navBadge}>{teams.length}</span>
-            {activeTab === "manage" && <span style={styles.navIndicator} />}
-          </button>
+        <nav style={{ display:"flex", flexDirection:"column", gap:"4px", padding:"0 12px", flex:1 }}>
+          {[
+            { id:"add", icon:"＋", label: form._id ? "Edit Member" : "Add Member" },
+            { id:"manage", icon:"◈", label:"Manage Team", badge: teams.length },
+          ].map(item => (
+            <button key={item.id} className="t-nav" onClick={() => { if(item.id==="add") resetForm(); setActiveTab(item.id); }}
+              style={{ display:"flex", alignItems:"center", gap:"10px", padding:"12px 14px", background: activeTab===item.id ? T.orangePill : "transparent", border: activeTab===item.id ? `2px solid ${T.orange}` : "2px solid transparent", borderRadius:"10px", color: activeTab===item.id ? T.orange : T.muted, fontSize:"14px", fontWeight:"600", cursor:"pointer", textAlign:"left", width:"100%", transition:"all 0.2s" }}>
+              <span style={{ fontSize:"15px", minWidth:"20px", textAlign:"center" }}>{item.icon}</span>
+              <span style={{ flex:1 }}>{item.label}</span>
+              {item.badge !== undefined && <span style={{ background: T.orange, color:"#fff", fontSize:"11px", fontWeight:"700", padding:"2px 7px", borderRadius:"20px" }}>{item.badge}</span>}
+              {activeTab===item.id && <span style={{ width:"6px", height:"6px", borderRadius:"50%", background: T.orange }} />}
+            </button>
+          ))}
         </nav>
 
-        <div style={styles.sidebarFooter}>
-          <div style={styles.sessionDot} />
-          <span style={styles.sessionText}>Admin Active</span>
+        {/* Back to Dashboard — bottom, prominent */}
+        <div style={{ padding:"20px 16px", borderTop:`2px solid ${T.border}` }}>
+          <button onClick={() => router.push("/adminsidepages/dashboardadmin")} className="t-back"
+            style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:"8px", background: T.orangePill, border:`2px solid ${T.orange}`, color: T.orange, fontSize:"13px", fontWeight:"700", cursor:"pointer", padding:"12px 16px", borderRadius:"10px", transition:"all 0.2s", width:"100%" }}>
+            <FaArrowLeft style={{ fontSize:"11px" }} /> Back to Dashboard
+          </button>
+          <div style={{ display:"flex", alignItems:"center", gap:"8px", marginTop:"12px", paddingLeft:"4px" }}>
+            <div style={{ width:"8px", height:"8px", borderRadius:"50%", background:"#22c55e", boxShadow:"0 0 6px #22c55e" }} />
+            <span style={{ fontSize:"12px", color: T.muted }}>Admin Active</span>
+          </div>
         </div>
       </aside>
 
-      {/* MAIN CONTENT */}
-      <main style={styles.main}>
-        {/* TOPBAR */}
-        <div style={styles.topbar}>
+      {/* MAIN */}
+      <main style={{ flex:1, padding:"32px 40px", maxWidth:"calc(100vw - 240px)", overflowX:"hidden", position:"relative", zIndex:1 }}>
+
+        {/* Topbar */}
+        <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:"28px" }}>
           <div>
-            <h1 style={styles.pageTitle}>
-              {activeTab === "add"
-                ? form._id
-                  ? "Edit Member"
-                  : "Add New Member"
-                : "Manage Team"}
+            <h1 style={{ fontSize:"32px", fontWeight:"900", color: T.text, margin:0, letterSpacing:"-0.5px" }}>
+              {activeTab==="add" ? (form._id ? "Edit Member" : "Add New Member") : "Manage Team"}
             </h1>
-            <p style={styles.pageSubtitle}>
-              {activeTab === "add"
-                ? "Fill in the details below to add a team member"
-                : `${teams.length} members in your team`}
+            <p style={{ fontSize:"14px", color: T.muted, margin:"4px 0 0" }}>
+              {activeTab==="add" ? "Fill in the details below to add a team member" : `${teams.length} members in your team`}
             </p>
           </div>
-          <div style={styles.topbarAccent}>
-            <span style={styles.accentLine} />
-            <span style={styles.accentDot} />
+          <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+            <div style={{ width:"60px", height:"2px", background:`linear-gradient(to left, ${T.orange}, transparent)` }} />
+            <div style={{ width:"8px", height:"8px", borderRadius:"50%", background: T.orange, boxShadow:`0 0 10px rgba(154,52,18,0.5)` }} />
           </div>
         </div>
 
-        {/* ALERTS */}
+        {/* Alerts */}
         {error && (
-          <div style={styles.alertError}>
-            <span style={styles.alertIcon}>✕</span> {error}
+          <div style={{ background:"rgba(255,68,68,0.07)", border:"2px solid rgba(255,68,68,0.30)", color:"#c0392b", padding:"12px 16px", borderRadius:"12px", marginBottom:"20px", fontSize:"14px", display:"flex", alignItems:"center", gap:"8px" }}>
+            <span style={{ fontWeight:"700" }}>✕</span> {error}
           </div>
         )}
         {success && (
-          <div style={styles.alertSuccess}>
-            <span style={styles.alertIcon}>✓</span> {success}
+          <div style={{ background:"rgba(34,197,94,0.07)", border:"2px solid rgba(34,197,94,0.30)", color:"#166534", padding:"12px 16px", borderRadius:"12px", marginBottom:"20px", fontSize:"14px", display:"flex", alignItems:"center", gap:"8px" }}>
+            <span style={{ fontWeight:"700" }}>✓</span> {success}
           </div>
         )}
 
         {/* ADD / EDIT FORM */}
         {activeTab === "add" && (
-          <form onSubmit={handleSubmit} style={styles.formWrapper}>
+          <form onSubmit={handleSubmit} style={{ display:"flex", gap:"32px", alignItems:"flex-start", flexWrap:"wrap" }}>
             {/* Image Upload */}
-            <div style={styles.imageSection}>
-              <label style={styles.imageUploadBox} htmlFor="imageInput">
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"12px" }}>
+              <label htmlFor="imageInput" style={{ width:"200px", height:"200px", border:`2px dashed ${T.orange}`, borderRadius:"16px", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", position:"relative", overflow:"hidden", background: T.input, transition:"border-color 0.2s" }}>
                 {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    alt="preview"
-                    style={styles.imagePreview}
-                  />
+                  <img src={imagePreview} alt="preview" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
                 ) : (
-                  <div style={styles.imagePlaceholder}>
-                    <span style={styles.uploadIcon}>⬆</span>
-                    <span style={styles.uploadText}>Upload Photo</span>
-                    <span style={styles.uploadHint}>Click to browse</span>
+                  <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:"8px" }}>
+                    <span style={{ fontSize:"28px", color: T.orange }}>⬆</span>
+                    <span style={{ fontSize:"14px", color: T.muted, fontWeight:"600" }}>Upload Photo</span>
+                    <span style={{ fontSize:"11px", color: T.dim }}>Click to browse</span>
                   </div>
                 )}
-                <div style={styles.imageOverlay}>
-                  <span style={styles.overlayText}>Change Photo</span>
+                <div style={{ position:"absolute", inset:0, background:"rgba(154,52,18,0.75)", display:"flex", alignItems:"center", justifyContent:"center", opacity:0, transition:"opacity 0.2s" }}>
+                  <span style={{ color:"#fff", fontWeight:"600", fontSize:"14px" }}>Change Photo</span>
                 </div>
               </label>
-              <input
-                id="imageInput"
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: "none" }}
-              />
+              <input id="imageInput" type="file" accept="image/*" onChange={handleImageUpload} style={{ display:"none" }} />
               {imagePreview && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setImagePreview(null);
-                    setForm((p) => ({ ...p, image: "" }));
-                  }}
-                  style={styles.removeImageBtn}
-                >
+                <button type="button" onClick={() => { setImagePreview(null); setForm(p => ({ ...p, image:"" })); }}
+                  style={{ background:"transparent", border:`2px solid ${T.borderSoft}`, color: T.muted, padding:"6px 14px", borderRadius:"8px", fontSize:"12px", cursor:"pointer" }}>
                   Remove Photo
                 </button>
               )}
             </div>
 
-            {/* Form Fields */}
-            <div style={styles.fieldsGrid}>
-              <div style={styles.fieldGroup}>
-                <label style={styles.label}>
-                  Full Name <span style={styles.required}>*</span>
+            {/* Fields */}
+            <div style={{ flex:1, display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px", minWidth:"400px" }}>
+              {[
+                { name:"name", label:"Full Name", placeholder:"e.g. John Smith", required:true },
+                { name:"designation", label:"Designation", placeholder:"e.g. Manager", required:true },
+                { name:"email", label:"Email", placeholder:"email@company.com", type:"email" },
+                { name:"phone", label:"Phone", placeholder:"+92 300 0000000" },
+                { name:"experience", label:"Experience", placeholder:"e.g. 5 years" },
+                { name:"linkedin", label:"LinkedIn", placeholder:"linkedin.com/in/username" },
+              ].map(f => (
+                <div key={f.name} style={{ display:"flex", flexDirection:"column", gap:"6px" }}>
+                  <label style={{ fontSize:"11px", color: T.muted, fontWeight:"700", letterSpacing:"0.5px", textTransform:"uppercase" }}>
+                    {f.label} {f.required && <span style={{ color: T.orange }}>*</span>}
+                  </label>
+                  <input className="t-input" name={f.name} type={f.type||"text"} placeholder={f.placeholder}
+                    onChange={handleChange} value={form[f.name]||""} required={!!f.required} style={inputStyle} />
+                </div>
+              ))}
+
+              <div style={{ gridColumn:"1 / -1", display:"flex", flexDirection:"column", gap:"6px" }}>
+                <label style={{ fontSize:"11px", color: T.muted, fontWeight:"700", letterSpacing:"0.5px", textTransform:"uppercase" }}>Description</label>
+                <textarea className="t-input" name="description" placeholder="Brief bio or role description..." onChange={handleChange} value={form.description} rows={3}
+                  style={{ ...inputStyle, resize:"vertical", minHeight:"80px" }} />
+              </div>
+
+              <div style={{ gridColumn:"1 / -1", display:"flex", flexDirection:"column", gap:"6px" }}>
+                <label style={{ fontSize:"11px", color: T.muted, fontWeight:"700", letterSpacing:"0.5px", textTransform:"uppercase" }}>
+                  Skills <span style={{ color: T.dim, textTransform:"none", fontWeight:"400" }}>(comma separated)</span>
                 </label>
-                <input
-                  className="team-input"
-                  name="name"
-                  placeholder="e.g. John Smith"
-                  onChange={handleChange}
-                  value={form.name}
-                  required
-                  style={styles.input}
-                />
-              </div>
-
-              <div style={styles.fieldGroup}>
-                <label style={styles.label}>
-                  Designation <span style={styles.required}>*</span>
-                </label>
-                <input
-                  className="team-input"
-                  name="designation"
-                  placeholder="e.g. Senior Developer"
-                  onChange={handleChange}
-                  value={form.designation}
-                  required
-                  style={styles.input}
-                />
-              </div>
-
-              <div style={{ ...styles.fieldGroup, gridColumn: "1 / -1" }}>
-                <label style={styles.label}>Description</label>
-                <textarea
-                  className="team-input"
-                  name="description"
-                  placeholder="Brief bio or role description..."
-                  onChange={handleChange}
-                  value={form.description}
-                  rows={3}
-                  style={{
-                    ...styles.input,
-                    resize: "vertical",
-                    minHeight: "80px",
-                  }}
-                />
-              </div>
-
-              <div style={styles.fieldGroup}>
-                <label style={styles.label}>Email</label>
-                <input
-                  className="team-input"
-                  name="email"
-                  type="email"
-                  placeholder="email@company.com"
-                  onChange={handleChange}
-                  value={form.email}
-                  style={styles.input}
-                />
-              </div>
-
-              <div style={styles.fieldGroup}>
-                <label style={styles.label}>Phone</label>
-                <input
-                  className="team-input"
-                  name="phone"
-                  placeholder="+92 300 0000000"
-                  onChange={handleChange}
-                  value={form.phone}
-                  style={styles.input}
-                />
-              </div>
-
-              <div style={styles.fieldGroup}>
-                <label style={styles.label}>Experience</label>
-                <input
-                  className="team-input"
-                  name="experience"
-                  placeholder="e.g. 5 years"
-                  onChange={handleChange}
-                  value={form.experience}
-                  style={styles.input}
-                />
-              </div>
-
-              <div style={styles.fieldGroup}>
-                <label style={styles.label}>LinkedIn</label>
-                <input
-                  className="team-input"
-                  name="linkedin"
-                  placeholder="linkedin.com/in/username"
-                  onChange={handleChange}
-                  value={form.linkedin}
-                  style={styles.input}
-                />
-              </div>
-
-              <div style={{ ...styles.fieldGroup, gridColumn: "1 / -1" }}>
-                <label style={styles.label}>
-                  Skills <span style={styles.hint}>(comma separated)</span>
-                </label>
-                <input
-                  className="team-input"
-                  name="skills"
-                  placeholder="React, Node.js, UI Design..."
-                  onChange={handleChange}
-                  value={form.skills}
-                  style={styles.input}
-                />
+                <input className="t-input" name="skills" placeholder="Hill cutting, Driving, Operating machines.." onChange={handleChange} value={form.skills} style={inputStyle} />
                 {form.skills && (
-                  <div style={styles.skillTags}>
-                    {form.skills.split(",").map(
-                      (s, i) =>
-                        s.trim() && (
-                          <span key={i} style={styles.skillTag}>
-                            {s.trim()}
-                          </span>
-                        ),
-                    )}
+                  <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"4px" }}>
+                    {form.skills.split(",").map((s,i) => s.trim() && (
+                      <span key={i} style={{ background: T.orangePill, border:`1px solid ${T.orange}`, color: T.orange, fontSize:"11px", padding:"3px 10px", borderRadius:"20px", fontWeight:"600" }}>{s.trim()}</span>
+                    ))}
                   </div>
                 )}
               </div>
 
-              <div
-                style={{
-                  ...styles.fieldGroup,
-                  gridColumn: "1 / -1",
-                  display: "flex",
-                  gap: "12px",
-                  justifyContent: "flex-end",
-                  marginTop: "8px",
-                }}
-              >
+              <div style={{ gridColumn:"1 / -1", display:"flex", gap:"12px", justifyContent:"flex-end", marginTop:"8px", paddingTop:"16px", borderTop:`2px solid ${T.borderSoft}` }}>
                 {form._id && (
-                  <button
-                    type="button"
-                    onClick={resetForm}
-                    style={styles.cancelBtn}
-                  >
+                  <button type="button" onClick={resetForm} className="t-cancel"
+                    style={{ background:"transparent", border:`2px solid ${T.borderSoft}`, color: T.muted, padding:"12px 20px", borderRadius:"10px", fontSize:"14px", fontWeight:"600", cursor:"pointer", transition:"all 0.2s" }}>
                     Cancel Edit
                   </button>
                 )}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  style={
-                    submitting
-                      ? { ...styles.submitBtn, opacity: 0.7 }
-                      : styles.submitBtn
-                  }
-                >
-                  {submitting
-                    ? "Saving..."
-                    : form._id
-                      ? "Update Member"
-                      : "Add Member"}
+                <button type="submit" disabled={submitting} className="t-submit"
+                  style={{ background: T.orange, border:"none", color:"#fff", padding:"12px 28px", borderRadius:"10px", fontSize:"14px", fontWeight:"700", cursor:"pointer", transition:"all 0.2s", opacity: submitting ? 0.7 : 1, boxShadow:"0 4px 15px rgba(154,52,18,0.25)" }}>
+                  {submitting ? "Saving..." : form._id ? "Update Member" : "Add Member"}
                 </button>
               </div>
             </div>
@@ -455,75 +303,52 @@ export default function ManageTeam() {
         {activeTab === "manage" && (
           <div>
             {teams.length === 0 ? (
-              <div style={styles.emptyState}>
-                <span style={styles.emptyIcon}>◈</span>
-                <p style={styles.emptyTitle}>No team members yet</p>
-                <p style={styles.emptySubtitle}>
-                  Add your first team member to get started
-                </p>
-                <button
-                  onClick={() => setActiveTab("add")}
-                  style={styles.submitBtn}
-                >
+              <div style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px", gap:"12px" }}>
+                <span style={{ fontSize:"48px", color: T.dim }}>◈</span>
+                <p style={{ fontSize:"20px", fontWeight:"700", color: T.muted, margin:0 }}>No team members yet</p>
+                <p style={{ fontSize:"14px", color: T.dim, margin:"0 0 16px" }}>Add your first team member to get started</p>
+                <button onClick={() => setActiveTab("add")} className="t-submit"
+                  style={{ background: T.orange, border:"none", color:"#fff", padding:"12px 28px", borderRadius:"10px", fontSize:"14px", fontWeight:"700", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 15px rgba(154,52,18,0.25)" }}>
                   + Add First Member
                 </button>
               </div>
             ) : (
-              <div style={styles.cardsGrid}>
-                {teams.map((m) => (
-                  <div key={m._id} style={styles.card} className="team-card">
-                    <div style={styles.cardImageWrap}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(260px, 1fr))", gap:"20px" }}>
+                {teams.map(m => (
+                  <div key={m._id} className="t-card"
+                    style={{ background: T.card, border:`2px solid ${T.border}`, borderRadius:"16px", overflow:"hidden", transition:"all 0.25s", boxShadow:"0 4px 16px rgba(0,0,0,0.08)" }}>
+                    <div style={{ position:"relative", height:"180px", background:"#f5e8de", overflow:"hidden" }}>
                       {m.image ? (
-                        <img
-                          src={m.image}
-                          alt={m.name}
-                          style={styles.cardImage}
-                        />
+                        <img src={m.image} alt={m.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
                       ) : (
-                        <div style={styles.cardImageFallback}>
+                        <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"48px", fontWeight:"900", color: T.orange, background: T.orangePill }}>
                           {m.name?.charAt(0)?.toUpperCase()}
                         </div>
                       )}
-                      <div style={styles.cardImageOverlay} />
+                      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"60px", background:"linear-gradient(to top, #fff, transparent)" }} />
                     </div>
 
-                    <div style={styles.cardBody}>
-                      <h3 style={styles.cardName}>{m.name}</h3>
-                      <p style={styles.cardDesig}>{m.designation}</p>
-
-                      {m.experience && (
-                        <p style={styles.cardExp}>⏱ {m.experience}</p>
-                      )}
-
+                    <div style={{ padding:"16px 18px 10px" }}>
+                      <h3 style={{ fontSize:"16px", fontWeight:"700", color: T.text, margin:"0 0 4px" }}>{m.name}</h3>
+                      <p style={{ fontSize:"13px", color: T.orange, margin:"0 0 6px", fontWeight:"600" }}>{m.designation}</p>
+                      {m.experience && <p style={{ fontSize:"12px", color: T.dim, margin:"0 0 8px" }}>⏱ {m.experience}</p>}
                       {m.skills?.length > 0 && (
-                        <div style={styles.cardSkills}>
-                          {m.skills.slice(0, 3).map((s, i) => (
-                            <span key={i} style={styles.cardSkillTag}>
-                              {s}
-                            </span>
+                        <div style={{ display:"flex", flexWrap:"wrap", gap:"5px" }}>
+                          {m.skills.slice(0,3).map((s,i) => (
+                            <span key={i} style={{ background:"#f5f0ee", border:`1px solid ${T.borderSoft}`, color: T.muted, fontSize:"10px", padding:"2px 8px", borderRadius:"20px" }}>{s}</span>
                           ))}
-                          {m.skills.length > 3 && (
-                            <span style={styles.cardSkillMore}>
-                              +{m.skills.length - 3}
-                            </span>
-                          )}
+                          {m.skills.length > 3 && <span style={{ background: T.orangePill, color: T.orange, fontSize:"10px", padding:"2px 8px", borderRadius:"20px", border:`1px solid ${T.orange}` }}>+{m.skills.length - 3}</span>}
                         </div>
                       )}
                     </div>
 
-                    <div style={styles.cardActions}>
-                      <button
-                        onClick={() => handleEdit(m)}
-                        style={styles.editBtn}
-                        className="card-action-btn"
-                      >
+                    <div style={{ display:"flex", gap:"8px", padding:"10px 18px 14px", borderTop:`2px solid ${T.borderSoft}` }}>
+                      <button onClick={() => handleEdit(m)} className="t-act"
+                        style={{ flex:1, background:"transparent", border:`2px solid ${T.borderSoft}`, color: T.muted, padding:"8px", borderRadius:"8px", fontSize:"13px", cursor:"pointer", fontWeight:"600", transition:"all 0.2s" }}>
                         ✎ Edit
                       </button>
-                      <button
-                        onClick={() => setDeletingMember(m)}
-                        style={styles.deleteBtn}
-                        className="card-action-btn"
-                      >
+                      <button onClick={() => setDeletingMember(m)}
+                        style={{ flex:1, background:"transparent", border:"2px solid rgba(220,38,38,0.25)", color:"#dc2626", padding:"8px", borderRadius:"8px", fontSize:"13px", cursor:"pointer", fontWeight:"600", transition:"all 0.2s" }}>
                         ✕ Delete
                       </button>
                     </div>
@@ -537,67 +362,26 @@ export default function ManageTeam() {
 
       {/* DELETE MODAL */}
       {deletingMember && (
-        <div
-          style={styles.modalOverlay}
-          onClick={(e) =>
-            e.target === e.currentTarget && setDeletingMember(null)
-          }
-        >
-          <div style={styles.modal}>
-            <div style={styles.modalHeader}>
-              <span style={styles.modalWarningIcon}>⚠</span>
-              <h2 style={styles.modalTitle}>Confirm Deletion</h2>
+        <div style={{ position:"fixed", inset:0, background:"rgba(26,16,8,0.60)", display:"flex", alignItems:"center", justifyContent:"center", zIndex:1000, backdropFilter:"blur(4px)" }}
+          onClick={e => e.target === e.currentTarget && setDeletingMember(null)}>
+          <div style={{ background:"#fff", border:`2px solid ${T.border}`, borderRadius:"16px", padding:"28px", width:"420px", maxWidth:"90vw", boxShadow:"0 20px 60px rgba(0,0,0,0.20)" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"12px" }}>
+              <span style={{ fontSize:"20px", color: T.orange }}>⚠</span>
+              <h2 style={{ fontSize:"18px", fontWeight:"700", margin:0, color: T.text }}>Confirm Deletion</h2>
             </div>
-            <p style={styles.modalDesc}>
-              This action cannot be undone. Type{" "}
-              <strong style={{ color: "#FF6B00" }}>
-                {deletingMember.name}
-              </strong>{" "}
-              to confirm.
+            <p style={{ fontSize:"14px", color: T.muted, marginBottom:"16px", lineHeight:"1.5" }}>
+              This action cannot be undone. Type <strong style={{ color: T.orange }}>{deletingMember.name}</strong> to confirm.
             </p>
-            <input
-              className="team-input"
-              placeholder={`Type "${deletingMember.name}"`}
-              onChange={(e) => setDeleteConfirm(e.target.value)}
-              value={deleteConfirm}
-              style={{ ...styles.input, marginBottom: "8px" }}
-            />
-            {error && (
-              <p
-                style={{
-                  color: "#ff4444",
-                  fontSize: "13px",
-                  marginBottom: "12px",
-                }}
-              >
-                {error}
-              </p>
-            )}
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                justifyContent: "flex-end",
-              }}
-            >
-              <button
-                onClick={() => {
-                  setDeletingMember(null);
-                  setDeleteConfirm("");
-                  setError("");
-                }}
-                style={styles.cancelBtn}
-              >
+            <input className="t-input" placeholder={`Type "${deletingMember.name}"`} onChange={e => setDeleteConfirm(e.target.value)} value={deleteConfirm}
+              style={{ ...inputStyle, marginBottom:"8px" }} />
+            {error && <p style={{ color:"#dc2626", fontSize:"13px", marginBottom:"12px" }}>{error}</p>}
+            <div style={{ display:"flex", gap:"10px", justifyContent:"flex-end" }}>
+              <button onClick={() => { setDeletingMember(null); setDeleteConfirm(""); setError(""); }} className="t-cancel"
+                style={{ background:"transparent", border:`2px solid ${T.borderSoft}`, color: T.muted, padding:"10px 20px", borderRadius:"10px", fontSize:"14px", fontWeight:"600", cursor:"pointer", transition:"all 0.2s" }}>
                 Cancel
               </button>
-              <button
-                onClick={confirmDelete}
-                style={{
-                  ...styles.deleteBtn,
-                  padding: "10px 20px",
-                  borderRadius: "8px",
-                }}
-              >
+              <button onClick={confirmDelete}
+                style={{ background:"rgba(220,38,38,0.08)", border:"2px solid rgba(220,38,38,0.35)", color:"#dc2626", padding:"10px 20px", borderRadius:"10px", fontSize:"14px", fontWeight:"600", cursor:"pointer", transition:"all 0.2s" }}>
                 Delete Member
               </button>
             </div>
@@ -607,524 +391,3 @@ export default function ManageTeam() {
     </div>
   );
 }
-
-// ─── STYLES ──────────────────────────────────────────────────────────────────
-
-const styles = {
-  root: {
-    display: "flex",
-    minHeight: "100vh",
-    background: "#000000",
-    fontFamily: "'Segoe UI', system-ui, sans-serif",
-    color: "#FFFFFF",
-  },
-  loadingScreen: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "100vh",
-    background: "#000",
-    gap: "16px",
-  },
-  loadingSpinner: {
-    width: "40px",
-    height: "40px",
-    border: "3px solid #222",
-    borderTop: "3px solid #FF6B00",
-    borderRadius: "50%",
-    animation: "spin 0.8s linear infinite",
-  },
-  loadingText: { color: "#888", fontSize: "14px", letterSpacing: "2px" },
-
-  // SIDEBAR
-  sidebar: {
-    width: "240px",
-    minHeight: "100vh",
-    background: "#0A0A0A",
-    borderRight: "1px solid #1A1A1A",
-    display: "flex",
-    flexDirection: "column",
-    padding: "0",
-    position: "sticky",
-    top: 0,
-    height: "100vh",
-  },
-  sidebarLogo: {
-    padding: "28px 24px 24px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "2px",
-  },
-  logoAccent: {
-    fontSize: "22px",
-    fontWeight: "800",
-    color: "#FF6B00",
-    letterSpacing: "4px",
-  },
-  logoSub: {
-    fontSize: "11px",
-    color: "#555",
-    letterSpacing: "3px",
-    fontWeight: "500",
-  },
-  sidebarDivider: {
-    height: "1px",
-    background: "linear-gradient(to right, #FF6B00, transparent)",
-    margin: "0 0 16px 0",
-  },
-  nav: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
-    padding: "0 12px",
-    flex: 1,
-  },
-  navBtn: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    padding: "12px 14px",
-    background: "transparent",
-    border: "none",
-    borderRadius: "10px",
-    color: "#666",
-    fontSize: "14px",
-    fontWeight: "500",
-    cursor: "pointer",
-    transition: "all 0.2s",
-    textAlign: "left",
-    position: "relative",
-    width: "100%",
-  },
-  navBtnActive: {
-    background: "rgba(255, 107, 0, 0.1)",
-    color: "#FF6B00",
-    border: "1px solid rgba(255, 107, 0, 0.2)",
-  },
-  navIcon: { fontSize: "16px", minWidth: "20px", textAlign: "center" },
-  navIndicator: {
-    marginLeft: "auto",
-    width: "6px",
-    height: "6px",
-    borderRadius: "50%",
-    background: "#FF6B00",
-  },
-  navBadge: {
-    marginLeft: "auto",
-    background: "#FF6B00",
-    color: "#000",
-    fontSize: "11px",
-    fontWeight: "700",
-    padding: "2px 7px",
-    borderRadius: "20px",
-    minWidth: "20px",
-    textAlign: "center",
-  },
-  sidebarFooter: {
-    padding: "20px 24px",
-    borderTop: "1px solid #1A1A1A",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  },
-  sessionDot: {
-    width: "8px",
-    height: "8px",
-    borderRadius: "50%",
-    background: "#22c55e",
-    boxShadow: "0 0 6px #22c55e",
-  },
-  sessionText: { fontSize: "12px", color: "#555" },
-
-  // MAIN
-  main: {
-    flex: 1,
-    padding: "32px 40px",
-    maxWidth: "calc(100vw - 240px)",
-    overflowX: "hidden",
-  },
-  topbar: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    marginBottom: "32px",
-  },
-  pageTitle: {
-    fontSize: "28px",
-    fontWeight: "700",
-    color: "#FFFFFF",
-    margin: 0,
-    letterSpacing: "-0.5px",
-  },
-  pageSubtitle: {
-    fontSize: "14px",
-    color: "#555",
-    margin: "4px 0 0",
-  },
-  topbarAccent: {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  },
-  accentLine: {
-    display: "block",
-    width: "60px",
-    height: "2px",
-    background: "linear-gradient(to left, #FF6B00, transparent)",
-  },
-  accentDot: {
-    display: "block",
-    width: "8px",
-    height: "8px",
-    borderRadius: "50%",
-    background: "#FF6B00",
-    boxShadow: "0 0 10px #FF6B00",
-  },
-
-  // ALERTS
-  alertError: {
-    background: "rgba(255, 68, 68, 0.1)",
-    border: "1px solid rgba(255, 68, 68, 0.3)",
-    color: "#ff6666",
-    padding: "12px 16px",
-    borderRadius: "10px",
-    marginBottom: "20px",
-    fontSize: "14px",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  },
-  alertSuccess: {
-    background: "rgba(34, 197, 94, 0.1)",
-    border: "1px solid rgba(34, 197, 94, 0.3)",
-    color: "#4ade80",
-    padding: "12px 16px",
-    borderRadius: "10px",
-    marginBottom: "20px",
-    fontSize: "14px",
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  },
-  alertIcon: { fontWeight: "700", fontSize: "16px" },
-
-  // FORM
-  formWrapper: {
-    display: "flex",
-    gap: "32px",
-    alignItems: "flex-start",
-    flexWrap: "wrap",
-  },
-  imageSection: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "12px",
-  },
-  imageUploadBox: {
-    width: "200px",
-    height: "200px",
-    border: "2px dashed #333",
-    borderRadius: "16px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    position: "relative",
-    overflow: "hidden",
-    background: "#0D0D0D",
-    transition: "border-color 0.2s",
-  },
-  imagePlaceholder: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "8px",
-  },
-  uploadIcon: { fontSize: "28px", color: "#FF6B00" },
-  uploadText: { fontSize: "14px", color: "#888", fontWeight: "500" },
-  uploadHint: { fontSize: "11px", color: "#555" },
-  imagePreview: { width: "100%", height: "100%", objectFit: "cover" },
-  imageOverlay: {
-    position: "absolute",
-    inset: 0,
-    background: "rgba(255, 107, 0, 0.7)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    opacity: 0,
-    transition: "opacity 0.2s",
-  },
-  overlayText: { color: "#fff", fontWeight: "600", fontSize: "14px" },
-  removeImageBtn: {
-    background: "transparent",
-    border: "1px solid #333",
-    color: "#888",
-    padding: "6px 14px",
-    borderRadius: "6px",
-    fontSize: "12px",
-    cursor: "pointer",
-  },
-
-  fieldsGrid: {
-    flex: 1,
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "16px",
-    minWidth: "400px",
-  },
-  fieldGroup: { display: "flex", flexDirection: "column", gap: "6px" },
-  label: {
-    fontSize: "12px",
-    color: "#888",
-    fontWeight: "600",
-    letterSpacing: "0.5px",
-    textTransform: "uppercase",
-  },
-  required: { color: "#FF6B00" },
-  hint: {
-    color: "#555",
-    fontWeight: "400",
-    textTransform: "none",
-    letterSpacing: "0",
-  },
-  input: {
-    background: "#0D0D0D",
-    border: "1px solid #222",
-    borderRadius: "10px",
-    color: "#FFFFFF",
-    padding: "12px 14px",
-    fontSize: "14px",
-    outline: "none",
-    transition: "border-color 0.2s",
-    width: "100%",
-    boxSizing: "border-box",
-    fontFamily: "inherit",
-  },
-
-  skillTags: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "6px",
-    marginTop: "6px",
-  },
-  skillTag: {
-    background: "rgba(255, 107, 0, 0.12)",
-    border: "1px solid rgba(255, 107, 0, 0.3)",
-    color: "#FF6B00",
-    fontSize: "11px",
-    padding: "3px 10px",
-    borderRadius: "20px",
-    fontWeight: "500",
-  },
-
-  submitBtn: {
-    background: "#FF6B00",
-    border: "none",
-    color: "#000",
-    padding: "12px 28px",
-    borderRadius: "10px",
-    fontSize: "14px",
-    fontWeight: "700",
-    cursor: "pointer",
-    letterSpacing: "0.3px",
-    transition: "all 0.2s",
-  },
-  cancelBtn: {
-    background: "transparent",
-    border: "1px solid #333",
-    color: "#888",
-    padding: "12px 20px",
-    borderRadius: "10px",
-    fontSize: "14px",
-    cursor: "pointer",
-  },
-
-  // CARDS
-  cardsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-    gap: "20px",
-  },
-  card: {
-    background: "#0A0A0A",
-    border: "1px solid #1A1A1A",
-    borderRadius: "16px",
-    overflow: "hidden",
-    transition: "all 0.25s",
-  },
-  cardImageWrap: {
-    position: "relative",
-    height: "180px",
-    background: "#111",
-    overflow: "hidden",
-  },
-  cardImage: { width: "100%", height: "100%", objectFit: "cover" },
-  cardImageFallback: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "48px",
-    fontWeight: "800",
-    color: "#FF6B00",
-    background: "rgba(255, 107, 0, 0.07)",
-  },
-  cardImageOverlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: "60px",
-    background: "linear-gradient(to top, #0A0A0A, transparent)",
-  },
-  cardBody: { padding: "16px 18px 12px" },
-  cardName: {
-    fontSize: "16px",
-    fontWeight: "700",
-    color: "#FFF",
-    margin: "0 0 4px",
-  },
-  cardDesig: {
-    fontSize: "13px",
-    color: "#FF6B00",
-    margin: "0 0 8px",
-    fontWeight: "500",
-  },
-  cardExp: { fontSize: "12px", color: "#555", margin: "0 0 10px" },
-  cardSkills: { display: "flex", flexWrap: "wrap", gap: "5px" },
-  cardSkillTag: {
-    background: "#111",
-    border: "1px solid #222",
-    color: "#888",
-    fontSize: "10px",
-    padding: "2px 8px",
-    borderRadius: "20px",
-  },
-  cardSkillMore: {
-    background: "rgba(255, 107, 0, 0.1)",
-    color: "#FF6B00",
-    fontSize: "10px",
-    padding: "2px 8px",
-    borderRadius: "20px",
-    border: "1px solid rgba(255, 107, 0, 0.2)",
-  },
-  cardActions: {
-    display: "flex",
-    gap: "8px",
-    padding: "12px 18px 16px",
-    borderTop: "1px solid #111",
-  },
-  editBtn: {
-    flex: 1,
-    background: "transparent",
-    border: "1px solid #333",
-    color: "#FFF",
-    padding: "8px",
-    borderRadius: "8px",
-    fontSize: "13px",
-    cursor: "pointer",
-    fontWeight: "500",
-    transition: "all 0.2s",
-  },
-  deleteBtn: {
-    flex: 1,
-    background: "transparent",
-    border: "1px solid rgba(255, 68, 68, 0.3)",
-    color: "#ff6666",
-    padding: "8px",
-    borderRadius: "8px",
-    fontSize: "13px",
-    cursor: "pointer",
-    fontWeight: "500",
-    transition: "all 0.2s",
-  },
-
-  // EMPTY STATE
-  emptyState: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "80px 20px",
-    gap: "12px",
-  },
-  emptyIcon: { fontSize: "48px", color: "#222" },
-  emptyTitle: { fontSize: "20px", fontWeight: "700", color: "#444", margin: 0 },
-  emptySubtitle: { fontSize: "14px", color: "#333", margin: "0 0 16px" },
-
-  // MODAL
-  modalOverlay: {
-    position: "fixed",
-    inset: 0,
-    background: "rgba(0,0,0,0.85)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1000,
-    backdropFilter: "blur(4px)",
-  },
-  modal: {
-    background: "#0D0D0D",
-    border: "1px solid #222",
-    borderRadius: "16px",
-    padding: "28px",
-    width: "420px",
-    maxWidth: "90vw",
-  },
-  modalHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    marginBottom: "12px",
-  },
-  modalWarningIcon: { fontSize: "20px", color: "#FF6B00" },
-  modalTitle: { fontSize: "18px", fontWeight: "700", margin: 0, color: "#FFF" },
-  modalDesc: {
-    fontSize: "14px",
-    color: "#888",
-    marginBottom: "20px",
-    lineHeight: "1.5",
-  },
-};
-
-const spinnerCSS = `
-  @keyframes spin { to { transform: rotate(360deg); } }
-`;
-
-const globalCSS = `
-  * { box-sizing: border-box; }
-  ::placeholder { color: #444 !important; }
-  
-  .team-input:focus {
-    border-color: #FF6B00 !important;
-    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
-    outline: none;
-  }
-  
-  .team-input:hover {
-    border-color: #333;
-  }
-  
-  label[for="imageInput"]:hover .imageOverlay {
-    opacity: 1 !important;
-  }
-  
-  label[for="imageInput"]:hover {
-    border-color: #FF6B00 !important;
-  }
-  
-  .team-card:hover {
-    border-color: #FF6B00 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(255, 107, 0, 0.08);
-  }
-  
-  .card-action-btn:hover {
-    background: rgba(255, 107, 0, 0.08) !important;
-    border-color: #FF6B00 !important;
-    color: #FF6B00 !important;
-  }
-`;
