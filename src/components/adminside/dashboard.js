@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-t from-orange-800 via-orange-200 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-t from-orange-800 via-orange-200 to-white">
         <div className="flex items-center gap-3 text-zinc-700 font-semibold text-lg">
           <div className="w-5 h-5 rounded-full border-2 border-orange-700 border-t-transparent animate-spin" />
           Loading Dashboard...
@@ -45,18 +45,18 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-t from-orange-800 via-orange-200 to-white">
+    <div className="relative min-h-screen overflow-hidden bg-linear-to-t from-orange-800 via-orange-200 to-white">
 
       {/* Radial overlays */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(154,52,18,0.25),transparent_40%),radial-gradient(circle_at_top_right,rgba(249,115,22,0.08),transparent_30%)]" />
 
       {/* Grid pattern */}
-      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:80px_80px]" />
+      <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-size-" />
 
       {/* Blobs */}
-      <div className="absolute top-[-120px] right-[-100px] w-[380px] h-[380px] rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-140px] left-[-120px] w-[420px] h-[420px] rounded-full bg-orange-800/20 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
+      <div className="absolute -top-30 -right-25 w-95 h-95 rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-35 -left-30 w-105 h-105 rounded-full bg-orange-800/20 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 w-75 h-75 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
 
       <div className="relative p-8 max-w-7xl mx-auto">
 
@@ -73,7 +73,7 @@ export default function Dashboard() {
           {!session && (
             <button
               onClick={() => router.push("/adminsidepages/login")}
-              className="bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-700 hover:to-orange-500 text-white font-bold px-6 py-2.5 rounded-2xl shadow-[0_8px_20px_rgba(154,52,18,0.30)] hover:shadow-[0_10px_30px_rgba(154,52,18,0.45)] hover:-translate-y-0.5 transition-all duration-300"
+              className="bg-linear-to-r from-orange-800 to-orange-600 hover:from-orange-700 hover:to-orange-500 text-white font-bold px-6 py-2.5 rounded-2xl shadow-[0_8px_20px_rgba(154,52,18,0.30)] hover:shadow-[0_10px_30px_rgba(154,52,18,0.45)] hover:-translate-y-0.5 transition-all duration-300"
             >
               Login as Admin
             </button>
@@ -88,7 +88,7 @@ export default function Dashboard() {
           </div>
           <h1 className="text-4xl md:text-5xl font-black leading-tight text-zinc-900">
             Admin{" "}
-            <span className="bg-gradient-to-r from-orange-500 via-orange-700 to-orange-800 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-orange-500 via-orange-700 to-orange-800 bg-clip-text text-transparent">
               Dashboard
             </span>
           </h1>
@@ -152,7 +152,7 @@ export default function Dashboard() {
                 }
                 className={`relative w-full py-2.5 rounded-2xl font-bold text-sm transition-all duration-300 ${
                   session
-                    ? "bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-700 hover:to-orange-500 text-white shadow-[0_4px_15px_rgba(154,52,18,0.30)] hover:shadow-[0_8px_25px_rgba(154,52,18,0.45)]"
+                    ? "bg-linear-to-r from-orange-800 to-orange-600 hover:from-orange-700 hover:to-orange-500 text-white shadow-[0_4px_15px_rgba(154,52,18,0.30)] hover:shadow-[0_8px_25px_rgba(154,52,18,0.45)]"
                     : "bg-zinc-100 border-2 border-zinc-300 text-zinc-400 cursor-not-allowed"
                 }`}
               >

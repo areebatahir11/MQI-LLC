@@ -9,10 +9,10 @@ export default function Footer() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_60%_at_100%_100%,rgba(192,72,26,0.50),transparent_60%)]" />
 
       {/* Grid pattern */}
-      <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:80px_80px]" />
+      <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-size-" />
 
       {/* Top border glow */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-700/60 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-orange-700/60 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
 
@@ -20,7 +20,7 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-black text-white leading-snug">
             Muhammad Qayum{" "}
-            <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
               International LLC
             </span>
           </h3>
