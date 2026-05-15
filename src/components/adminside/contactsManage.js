@@ -69,6 +69,32 @@ export default function ContactsManage() {
     return `https://mail.google.com/mail/?view=cm&to=${contact.email}&su=${subject}&body=${body}`;
   }
 
+  async function deleteMessage(id) {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        const updated = contacts.filter((c) => c._id !== id);
+
+        setContacts(updated);
+
+        if (selected?._id === id) {
+          setSelected(updated[0] || null);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div
       style={{
@@ -641,8 +667,7 @@ export default function ContactsManage() {
                   userSelect: "none",
                   pointerEvents: "none",
                 }}
-              >
-              </div>
+              ></div>
               <p
                 style={{
                   fontSize: "16px",
@@ -718,6 +743,13 @@ export default function ContactsManage() {
                   Next Message →
                 </button>
               )}
+
+              <button
+                onClick={() => deleteMessage(selected._id)}
+                className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl text-sm font-bold border border-red-600 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(220,38,38,0.30)]"
+              >
+                🗑 Delete Message
+              </button>
             </div>
           </div>
         )}
