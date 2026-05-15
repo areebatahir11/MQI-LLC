@@ -1,3 +1,4 @@
+//whychooseus.js
 export default function WhyChooseUs() {
   const points = [
     {
@@ -33,21 +34,18 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-t from-orange-800 via-orange-200 to-white py-28">
-
+    <section className="relative overflow-hidden bg-gradient-to-t from-white via-orange-50 to-orange-100 py-28">
       {/* Radial overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(154,52,18,0.25),transparent_40%),radial-gradient(circle_at_top_right,rgba(249,115,22,0.08),transparent_30%)]" />
-
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.10),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(249,115,22,0.18),transparent_35%)]" />
       {/* Grid pattern */}
       <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:80px_80px]" />
 
       {/* Floating blobs */}
-      <div className="absolute top-[-120px] right-[-100px] w-[380px] h-[380px] rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-140px] left-[-120px] w-[420px] h-[420px] rounded-full bg-orange-800/20 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
+      <div className="absolute -top-30 -left-25 w-95 h-95 rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-35 -right-30 w-105 h-105 rounded-full bg-orange-200/30 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 w-75 h-75 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-6">
-
         {/* Header */}
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/70 border border-orange-200 backdrop-blur-xl px-5 py-2 text-sm text-orange-500 font-semibold shadow-md mb-6">
@@ -78,7 +76,9 @@ export default function WhyChooseUs() {
               <h3 className="mb-2 text-base font-bold text-zinc-900 group-hover:text-orange-700 transition-colors duration-300">
                 {item.title}
               </h3>
-              <p className="text-zinc-500 text-sm leading-relaxed">{item.desc}</p>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>

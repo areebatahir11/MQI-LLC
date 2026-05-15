@@ -1,18 +1,16 @@
+//trustbadges.js
 export default function Stats() {
   return (
-    <section className="relative overflow-hidden bg-white py-24">
-
-      {/* Bottom corners burnt orange — same as FeaturedProjects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_0%_100%,rgba(192,72,26,0.90),transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_100%_100%,rgba(192,72,26,0.90),transparent_60%)]" />
-
+    <section className="relative overflow-hidden bg-gradient-to-r from-white via-orange-50 to-orange-100 py-24">
       {/* Grid pattern */}
       <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:80px_80px]" />
 
       {/* Center blob */}
-      <div className="absolute top-1/2 left-1/2 w-[500px] h-32 -translate-x-1/2 -translate-y-1/2 bg-orange-100/40 blur-3xl rounded-full pointer-events-none" />
-
+      <div className="absolute -top-30 -left-25 w-95 h-95 rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-35 -right-30 w-105 h-105 rounded-full bg-orange-200/30 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 w-75 h-75 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
       <div className="relative mx-auto max-w-5xl px-6">
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {[
             { val: "15+", label: "Years in Business", icon: "🏗" },
@@ -31,7 +29,9 @@ export default function Stats() {
               <p className="relative text-3xl md:text-4xl font-black bg-gradient-to-r from-orange-950 via-orange-800 to-orange-600 bg-clip-text text-transparent">
                 {stat.val}
               </p>
-              <p className="relative text-zinc-500 text-sm mt-1 font-medium">{stat.label}</p>
+              <p className="relative text-zinc-500 text-sm mt-1 font-medium">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>

@@ -1,13 +1,12 @@
+//aboutpreview.js
 import Link from "next/link";
 import Image from "next/image";
 
 export default function AboutPreview() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-br from-white via-orange-50 to-white py-28">
-      {/* Soft Gradient Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(249,115,22,0.12),transparent_30%)]" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-orange-50 to-orange-100 py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.10),transparent_35%),radial-gradient(circle_at_bottom_left rgba(249,115,22,0.18) transparent_35%)]" />
 
-      {/* Floating Blobs */}
       <div className="absolute -top-30 -left-25 w-95 h-95 rounded-full bg-orange-300/30 blur-3xl" />
 
       <div className="absolute -bottom-35 -right-30 w-105 h-105 rounded-full bg-orange-200/30 blur-3xl" />

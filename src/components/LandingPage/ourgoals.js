@@ -1,12 +1,12 @@
+//ourGoals.js
 "use client";
 
 import Image from "next/image";
 
 export default function OurGoals() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-br from-[#78360d] via-orange-100 to-white py-28">
-      {/* Soft Gradient Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(249,115,22,0.12),transparent_30%)]" />
+    <section className="relative overflow-hidden bg-gradient-to-t from-white via-orange-50 to-orange-100 py-28">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(154,52,18,0.20),transparent_50%),radial-gradient(circle_at_top_right,rgba(249,115,22,0.08),transparent_35%)]" />
 
       {/* Floating Blobs */}
       <div className="absolute -top-30 -right-25 w-95 h-95 rounded-full bg-orange-300/30 blur-3xl" />
@@ -63,7 +63,7 @@ export default function OurGoals() {
             ].map((goal, index) => (
               <div
                 key={index}
-                className="group rounded-2xl border border-white/60 bg-white/60 backdrop-blur-2xl p-6 shadow-[0_10px_40px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_15px_50px_rgba(249,115,22,0.15)]"
+                className="group relative bg-white/90 backdrop-blur-xl border-[3px] border-zinc-900 rounded-3xl p-6 shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_8px_30px_rgb(0,0,0,0.18)] hover:shadow-[0_0_0_1px_rgba(0,0,0,0.12),0_20px_50px_rgba(0,0,0,0.30)] hover:-translate-y-2 transition-all duration-300"
               >
                 <div className="flex items-center gap-4">
                   {/* Number */}

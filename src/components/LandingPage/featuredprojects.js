@@ -1,3 +1,4 @@
+//featuredprojects.js
 "use client";
 
 import { useEffect, useState } from "react";
@@ -35,22 +36,12 @@ export default function FeaturedProjects() {
 
   const BgLayers = () => (
     <>
-      {/* Clean white base */}
-      <div className="absolute inset-0 bg-white" />
-
-      {/* Exact burnt orange from image — bottom-left corner */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_0%_100%,rgba(192,72,26,0.90),transparent_60%)]" />
-
-      {/* Bottom-right corner same color */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_100%_100%,rgba(192,72,26,0.90),transparent_60%)]" />
-
-      {/* Grid pattern */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-orange-50 to-orange-100" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.10),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(249,115,22,0.18),transparent_35%)]" />
       <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:80px_80px]" />
-
-      {/* Floating blobs */}
-      <div className="absolute top-[-120px] right-[-100px] w-[380px] h-[380px] rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-140px] left-[-120px] w-[420px] h-[420px] rounded-full bg-orange-800/20 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
+      <div className="absolute -top-30 -left-25 w-95 h-95 rounded-full bg-orange-300/30 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-35 -right-30 w-105 h-105 rounded-full bg-orange-200/30 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 w-75 h-75 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-3xl pointer-events-none" />
     </>
   );
 
@@ -87,7 +78,6 @@ export default function FeaturedProjects() {
       <BgLayers />
 
       <div className="relative mx-auto max-w-7xl px-6">
-
         {/* Header */}
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/70 border border-orange-200 backdrop-blur-xl px-5 py-2 text-sm text-orange-500 font-semibold shadow-md mb-6">
@@ -124,7 +114,9 @@ export default function FeaturedProjects() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-orange-900/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-7">
-                  <h3 className="text-2xl font-bold text-white">{project.title}</h3>
+                  <h3 className="text-2xl font-bold text-white">
+                    {project.title}
+                  </h3>
                   <p className="text-white/70 mt-1">{project.location}</p>
                 </div>
               </div>
