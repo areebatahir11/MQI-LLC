@@ -60,7 +60,7 @@ export default function Services() {
 
               <div className="relative flex items-center gap-4">
                 {/* Number badge */}
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white border border-orange-300 text-orange-800 font-bold shadow-md group-hover:bg-orange-500 group-hover:text-white transition">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-700 text-sm font-bold text-white shadow-lg">
                   0{index + 1}
                 </div>
 

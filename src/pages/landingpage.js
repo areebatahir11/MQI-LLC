@@ -14,13 +14,15 @@ export default function LandingPage() {
     <>
       <Navbar />
       <Hero />
-      <AboutPreview />
-      <OurGoals />
-      <ServicesPreview />
-      <OurTeam />
-      <FeaturedProjects />
-      <WhyChooseUs />
-      <TrustBadges />
+      <div className="[&>section]:py-16">
+        <AboutPreview />
+        <OurGoals />
+        <ServicesPreview />
+        <OurTeam />
+        <FeaturedProjects />
+        <WhyChooseUs />
+        <TrustBadges />
+      </div>
       <Footer />
     </>
   );
