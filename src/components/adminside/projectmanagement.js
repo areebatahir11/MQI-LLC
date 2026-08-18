@@ -839,7 +839,6 @@ export default function ManageProjects() {
                 accept="image/*"
                 onChange={handleImageUpload}
                 className="hidden"
-                required={!form._id}
               />
 
               {imagePreview && (
