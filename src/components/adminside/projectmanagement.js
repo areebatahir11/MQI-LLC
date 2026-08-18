@@ -761,6 +761,38 @@ export default function ManageProjects() {
               ))}
             </div>
 
+            {/* CLIENT + CONTRACTOR */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                {
+                  name: "client",
+                  label: "Client",
+                  placeholder: "e.g. Ministry of Tanmia",
+                  required: false,
+                },
+                {
+                  name: "contractor",
+                  label: "Contractor",
+                  placeholder: "e.g. Larsen & Tabouro",
+                  required: false,
+                },
+              ].map((f) => (
+                <div key={f.name} className="flex flex-col gap-1.5">
+                  <label className="text-[11px] font-bold uppercase tracking-[0.5px] text-[#6b4c3b]">
+                    {f.label}
+                  </label>
+
+                  <input
+                    className="w-full rounded-[10px] border-2 border-[rgba(26,26,26,0.15)] bg-[#fdf6f2] px-3.5 py-3 text-sm text-[#1a1008] outline-none transition-all duration-200 placeholder:text-[#a07060] hover:border-[#c0481a] focus:border-[#9a3412] focus:shadow-[0_0_0_3px_rgba(154,52,18,0.12)]"
+                    name={f.name}
+                    value={form[f.name]}
+                    onChange={handleChange}
+                    placeholder={f.placeholder}
+                  />
+                </div>
+              ))}
+            </div>
+
             {/* IMAGE UPLOAD */}
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] font-bold uppercase tracking-[0.5px] text-[#6b4c3b]">
