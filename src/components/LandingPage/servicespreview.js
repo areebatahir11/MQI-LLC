@@ -36,7 +36,7 @@ export default function Services() {
         {/* Header */}
         <div className="mb-14">
           <div className="inline-flex items-center gap-2 rounded-full bg-white border border-orange-200 px-5 py-2 text-sm text-orange-800 font-semibold shadow-sm mb-6">
-            <div className="w-2 h-2 rounded-full bg-orange-500" />
+            <div className="w-2 h-2 rounded-full bg-orange-400" />
             What We Do
           </div>
 

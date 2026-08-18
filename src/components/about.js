@@ -37,9 +37,11 @@ export default function AboutPage() {
                 solutions across Oman.
               </p>
               <p className="text-white/60 leading-relaxed">
-                With experienced engineers, skilled operators, and modern heavy
-                machinery, we ensure every project is completed on time with
-                strict safety standards.
+                The Company is carrying out the core contracting activities of
+                Hill/Rock Cutting, Excavation with machine ,hand excavation,
+                Building demolition, hand building demolition and Electrical Sub
+                Station Construction (compound wall) and soft materials
+                compaction work etc.
               </p>
             </div>
 

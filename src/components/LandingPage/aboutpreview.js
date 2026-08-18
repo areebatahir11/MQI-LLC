@@ -33,9 +33,10 @@ export default function AboutPreview() {
 
           <p className="mb-5 text-zinc-700 leading-relaxed text-[15px] md:text-base">
             A professional demolition and excavation contractor with over 15+
-            years of experience. We are known for delivering safe, reliable, and
-            high-quality services across residential, commercial, and industrial
-            projects.
+            years of experience. The Company has begun general work as
+            contractor since 2001 in construction field initialy, over the years
+            the company has taken many challenging projects and execute them
+            perfectly.
           </p>
 
           <p className="mb-9 text-zinc-500 text-sm leading-relaxed">
