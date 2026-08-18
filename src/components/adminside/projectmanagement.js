@@ -796,8 +796,7 @@ export default function ManageProjects() {
             {/* IMAGE UPLOAD */}
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] font-bold uppercase tracking-[0.5px] text-[#6b4c3b]">
-                Project Image{" "}
-                {!form._id && <span className="text-[#9a3412]">*</span>}
+                Project Image <span className="text-[#a07060]">(Optional)</span>
               </label>
 
               <label
@@ -918,7 +917,7 @@ export default function ManageProjects() {
                 </button>
               ) : (
                 <span className="self-center text-xs text-[#a07060]">
-                  * All fields required
+                  * Required fields
                 </span>
               )}
 
