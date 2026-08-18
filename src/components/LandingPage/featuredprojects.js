@@ -15,7 +15,11 @@ export default function FeaturedProjects() {
         const res = await fetch("/api/projects");
         const data = await res.json();
         if (data.success) {
-          setProjects(data.projects || []);
+          setProjects(
+            (data.projects || []).filter(
+              (project) => project.showOnLanding !== false,
+            ),
+          );
         }
       } catch (err) {
         console.error("Error fetching projects:", err);
