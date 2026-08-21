@@ -2,11 +2,11 @@
 
 const machinery = [
   { name: "Excavator", qty: "05 NOS" },
-  { name: "Tippers", qty: "03 NOS" },
   { name: "Shovel", qty: "01 NOS" },
   { name: "High Up (12 Ton Capacity)", qty: "02 NOS" },
-  { name: "Hilty (Hand Demolition/Excavation)", qty: "01 NOS" },
-  { name: "Compressor (Hand Demolition/Excavation)", qty: "01 NOS" },
+  // { name: "Ruler", qty: "02 NOS" },
+  { name: "Tippers", qty: "03 NOS" },
+  { name: "JCB", qty: "02 NOS" },
 ];
 
 export default function OurMachinery() {

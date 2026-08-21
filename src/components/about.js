@@ -27,14 +27,14 @@ export default function AboutPage() {
               <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                 About{" "}
                 <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                  MQI Contractors
+                  MQI Contractor
                 </span>
               </h1>
               <p className="text-white/60 mb-4 leading-relaxed">
-                Muhammad Qayum International LLC (MQI Contractors) is a
-                professional demolition and excavation company with 15+ years
-                experience, delivering safe, efficient, and high-quality
-                solutions across Oman.
+                Muhammad Qayum International LLC is a professional demolition
+                and excavation company with 15+ years experience, delivering
+                safe, efficient, and high-quality earth-works solution across
+                Oman.
               </p>
               <p className="text-white/60 leading-relaxed">
                 The Company is carrying out the core contracting activities of
@@ -78,7 +78,7 @@ export default function AboutPage() {
                   Excavation
                 </h3>
                 <p className="text-white/60 leading-relaxed">
-                  MQI Contractors has extensive experience in large-scale
+                  MQI Contractor has extensive experience in large-scale
                   excavation projects, including site preparation, trenching,
                   and earthworks. Our team ensures efficient soil removal,
                   grading, and foundation prep using modern machinery while
