@@ -34,7 +34,6 @@ export default function ProjectsPage() {
       <Navbar />
 
       <section className="relative min-h-screen overflow-hidden py-24 bg-zinc-950">
-
         {/* 🔥 MQI Background (same as About) */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-zinc-950" />
@@ -49,7 +48,6 @@ export default function ProjectsPage() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6">
-
           {/* Header */}
           <div className="mb-12">
             <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-orange-800/40 px-5 py-2 text-sm text-orange-400 font-semibold mb-6">
@@ -86,7 +84,6 @@ export default function ProjectsPage() {
           {/* Projects */}
           {!loading && (
             <div className="grid md:grid-cols-3 gap-8">
-
               {projects.length > 0 ? (
                 projects.map((project) => (
                   <div
@@ -114,6 +111,9 @@ export default function ProjectsPage() {
                       <p className="text-white/40 text-sm mt-2">
                         {project.description}
                       </p>
+                      <p className="text-white/40 text-sm mt-2">
+                        {project.client}
+                      </p>
                     </div>
                   </div>
                 ))
@@ -122,10 +122,8 @@ export default function ProjectsPage() {
                   No projects added yet.
                 </p>
               )}
-
             </div>
           )}
-
         </div>
       </section>
     </>
