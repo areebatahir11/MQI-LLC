@@ -1,11 +1,11 @@
 "use client";
 
 const machinery = [
-  { name: "Excavator", qty: "05 NOS" },
-  { name: "Shovel", qty: "01 NOS" },
+  { name: "Excavator", qty: "08 NOS" },
+  { name: "Shovel", qty: "02 NOS" },
   { name: "High Up (12 Ton Capacity)", qty: "02 NOS" },
-  // { name: "Ruler", qty: "02 NOS" },
-  { name: "Tippers", qty: "03 NOS" },
+  { name: "Roller", qty: "02 NOS" },
+  { name: "Tippers", qty: "06 NOS" },
   { name: "JCB", qty: "02 NOS" },
 ];
 
