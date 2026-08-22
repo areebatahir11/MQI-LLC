@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <title>MQIOMAN</title>
+        <title>mqioman</title>
       </Head>
 
       <main className={inter.className}>
