@@ -105,14 +105,14 @@ export default function ProjectsPage() {
                       <h3 className="font-bold text-lg text-white group-hover:text-orange-400 transition">
                         {project.title}
                       </h3>
+                      <h4 className="text-white/40 text-sm mt-2">
+                        {project.client}
+                      </h4>
                       <p className="text-white/60 text-sm">
                         {project.location}
                       </p>
                       <p className="text-white/40 text-sm mt-2">
                         {project.description}
-                      </p>
-                      <p className="text-white/40 text-sm mt-2">
-                        {project.client}
                       </p>
                     </div>
                   </div>
